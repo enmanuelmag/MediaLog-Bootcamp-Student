@@ -2,9 +2,9 @@
 
 Paquete `medialog-bootcamp`. Node >=22.22.0, pnpm 11.17.0.
 
-## Sesión 06 · session-06-step-04-callback-contracts
+## Sesión 06 · session-06-step-05-card-selection
 
-Misma firma en App/Grid/Card. Grid reenvía onSelect; Card aún no lo ejecuta. Trigger temporal sigue funcionando.
+Cada tarjeta abre su detalle. Trigger temporal aún presente; siguiente paso retirarlo.
 
 ```bash
 pnpm install --frozen-lockfile

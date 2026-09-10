@@ -7,7 +7,7 @@ type MediaCardProps = {
 }
 
 export function MediaCard(props: MediaCardProps) {
-  const { data } = props
+  const { data, onSelect } = props
   return (
     <article className="media-card">
       {data.posterUrl ? (
@@ -27,6 +27,13 @@ export function MediaCard(props: MediaCardProps) {
         <h3>{data.title}</h3>
         <p>{data.description ?? 'Sin descripción disponible'}</p>
       </div>
+      <button
+        className="detail-button"
+        type="button"
+        onClick={() => onSelect(data.id)}
+      >
+        Ver detalle
+      </button>
     </article>
   )
 }
