@@ -22,7 +22,6 @@ function App() {
   const selectedMedia =
     mediaItems.find((media) => media.id === selectedMediaId) ?? null
   const isDetailOpened = selectedMedia !== null
-  const previewMedia = mediaItems[0] ?? null
 
   function handleSelectMedia(mediaId: number) {
     setSelectedMediaId(mediaId)
@@ -77,17 +76,6 @@ function App() {
             Limpiar filtros
           </button>
         </div>
-        {previewMedia !== null ? (
-          <div className="selection-preview">
-            <button
-              className="detail-button"
-              type="button"
-              onClick={() => handleSelectMedia(previewMedia.id)}
-            >
-              Probar detalle
-            </button>
-          </div>
-        ) : null}
         {hasNoResults ? (
           <EmptyState
             title="Sin resultados"
