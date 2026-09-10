@@ -2,9 +2,9 @@
 
 Paquete `medialog-bootcamp`. Node >=22.22.0, pnpm 11.17.0.
 
-## Sesión 06 · session-06-step-03-modal-preview
+## Sesión 06 · session-06-step-04-callback-contracts
 
-Modal desde Probar detalle, contenido y cierres. Sin onSelect ni Ver detalle en Grid/Card; punto anterior al taller.
+Misma firma en App/Grid/Card. Grid reenvía onSelect; Card aún no lo ejecuta. Trigger temporal sigue funcionando.
 
 ```bash
 pnpm install --frozen-lockfile

@@ -3,6 +3,7 @@ import { MediaTypeBadge } from './media-type-badge'
 
 type MediaCardProps = {
   data: MediaItem
+  onSelect: (mediaId: number) => void
 }
 
 export function MediaCard(props: MediaCardProps) {

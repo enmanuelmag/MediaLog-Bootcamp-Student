@@ -94,7 +94,7 @@ function App() {
             description="No encontramos medios que coincidan con tus filtros."
           />
         ) : (
-          <MediaGrid items={visibleMedia} />
+          <MediaGrid items={visibleMedia} onSelect={handleSelectMedia} />
         )}
       </main>
       <Modal
