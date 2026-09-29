@@ -13,7 +13,6 @@ import {
 import { useState, type FormEvent } from 'react'
 
 import { toMediaSearchCardModel } from '../adapters/media-search-item-to-card-model'
-import { AppHeader } from '../components/app-header'
 import { MediaSearchResults } from '../components/media-search-results'
 import { useMediaSearch } from '../hooks/features/use-media'
 import type { SearchMediaInput } from '../types/media-api'
@@ -70,10 +69,7 @@ export function SearchPage() {
   }
 
   return (
-    <>
-      <AppHeader />
-
-      <Container component="main" py="xl" size="md">
+      <Container py="xl" size="md">
         <Stack gap="xl">
           <div>
             <Title order={2}>Busca en el catálogo remoto</Title>
@@ -127,6 +123,5 @@ export function SearchPage() {
           {renderSearchContent()}
         </Stack>
       </Container>
-    </>
   )
 }
