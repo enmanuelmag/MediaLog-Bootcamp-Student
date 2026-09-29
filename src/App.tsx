@@ -12,7 +12,9 @@ import {
 } from '@mantine/core'
 import { useState, type FormEvent } from 'react'
 
+import { toMediaSearchCardModel } from './adapters/media-search-item-to-card-model'
 import { AppHeader } from './components/app-header'
+import { MediaSearchResults } from './components/media-search-results'
 import { useMediaSearch } from './hooks/features/use-media'
 import type { SearchMediaInput } from './types/media-api'
 import type { MediaType } from './types/media-item'
@@ -25,6 +27,7 @@ function App() {
     useState<SearchMediaInput | null>(null)
 
   const mediaSearch = useMediaSearch(submittedSearch)
+  const items = (mediaSearch.data ?? []).map(toMediaSearchCardModel)
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -59,17 +62,11 @@ function App() {
       return <Alert color="red">{message}</Alert>
     }
 
-    if (mediaSearch.data?.length === 0) {
+    if (items.length === 0) {
       return <Text>No encontramos resultados para esta búsqueda.</Text>
     }
 
-    return (
-      <Stack component="ul">
-        {(mediaSearch.data ?? []).map((item) => (
-          <li key={`${item.mediaType}:${item.externalId}`}>{item.title}</li>
-        ))}
-      </Stack>
-    )
+    return <MediaSearchResults items={items} />
   }
 
   return (
