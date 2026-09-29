@@ -6,3 +6,7 @@ dist/
 !.env.example
 .DS_Store
 *.log
+# agent-harness-kit
+.harness/harness.db
+.harness/harness.db-shm
+.harness/harness.db-wal
