@@ -1,4 +1,5 @@
 import {
+  Anchor,
   Badge,
   Box,
   Card,
@@ -8,6 +9,7 @@ import {
   Stack,
   Text,
 } from '@mantine/core'
+import { Link } from 'react-router'
 
 import type { MediaSearchCardModel } from '../types/media-search-card-model'
 
@@ -55,6 +57,12 @@ export function MediaSearchResults(props: MediaSearchResultsProps) {
                 <Badge color="green">En biblioteca</Badge>
               ) : null}
             </Group>
+            <Anchor
+              component={Link}
+              to={`/media/${item.mediaType}/${item.externalId}`}
+            >
+              Ver detalle
+            </Anchor>
           </Stack>
         </Card>
       ))}
