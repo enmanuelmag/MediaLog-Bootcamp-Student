@@ -8,7 +8,14 @@ import { createRoot } from 'react-dom/client'
 import App from './App'
 import './index.css'
 
-const queryClient = new QueryClient()
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: false,
+      staleTime: 5 * 60 * 1000,
+    },
+  },
+})
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
