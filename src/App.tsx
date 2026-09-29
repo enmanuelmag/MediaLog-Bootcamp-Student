@@ -1,101 +1,135 @@
-import { Modal } from '@mantine/core'
-import { useState } from 'react'
+import {
+  Alert,
+  Button,
+  Container,
+  Group,
+  Loader,
+  Select,
+  Stack,
+  Text,
+  TextInput,
+  Title,
+} from '@mantine/core'
+import { useState, type FormEvent } from 'react'
 
 import { AppHeader } from './components/app-header'
-import { EmptyState } from './components/empty-state'
-import { MediaDetailContent } from './components/media-detail-content'
-import { MediaGrid } from './components/media-grid'
-import {
-  MediaTypeFilter,
-  type MediaTypeFilterValue,
-} from './components/media-type-filter'
-import { SearchInput } from './components/search-input'
-import { mediaItems } from './data/media-items'
+import { useMediaSearch } from './hooks/features/use-media'
+import type { SearchMediaInput } from './types/media-api'
+import type { MediaType } from './types/media-item'
 
 function App() {
-  const [query, setQuery] = useState('')
-  const [mediaTypeFilter, setMediaTypeFilter] =
-    useState<MediaTypeFilterValue>('all')
+  const [draftQuery, setDraftQuery] = useState('')
+  const [draftMediaType, setDraftMediaType] =
+    useState<MediaType>('movie')
+  const [submittedSearch, setSubmittedSearch] =
+    useState<SearchMediaInput | null>(null)
 
-  const [selectedMediaId, setSelectedMediaId] = useState<number | null>(null)
+  const mediaSearch = useMediaSearch(submittedSearch)
 
-  const selectedMedia =
-    mediaItems.find((media) => media.id === selectedMediaId) ?? null
-  const isDetailOpened = selectedMedia !== null
+  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault()
 
-  function handleSelectMedia(mediaId: number) {
-    setSelectedMediaId(mediaId)
+    const query = draftQuery.trim()
+
+    if (query.length < 2) {
+      return
+    }
+
+    setSubmittedSearch({
+      query,
+      mediaType: draftMediaType,
+    })
   }
 
-  function handleCloseDetail() {
-    setSelectedMediaId(null)
-  }
+  function renderSearchContent() {
+    if (submittedSearch === null) {
+      return <Text>Escribe un título y confirma la búsqueda.</Text>
+    }
 
-  const normalizedQuery = query.trim().toLowerCase()
-  const visibleMedia = mediaItems.filter((media) => {
-    const matchesQuery = media.title.toLowerCase().includes(normalizedQuery)
-    const matchesType =
-      mediaTypeFilter === 'all' || media.mediaType === mediaTypeFilter
+    if (mediaSearch.isLoading) {
+      return <Loader aria-label="Buscando títulos" />
+    }
 
-    return matchesQuery && matchesType
-  })
+    if (mediaSearch.isError) {
+      const message =
+        mediaSearch.error instanceof Error
+          ? mediaSearch.error.message
+          : 'No se pudo completar la búsqueda.'
 
-  const hasActiveFilters =
-    normalizedQuery.length > 0 || mediaTypeFilter !== 'all'
+      return <Alert color="red">{message}</Alert>
+    }
 
-  const hasNoResults =
-    mediaItems.length > 0 &&
-    hasActiveFilters &&
-    visibleMedia.length === 0
+    if (mediaSearch.data?.length === 0) {
+      return <Text>No encontramos resultados para esta búsqueda.</Text>
+    }
 
-  const resultCount = visibleMedia.length
-
-  function handleClearFilters() {
-    setQuery('')
-    setMediaTypeFilter('all')
+    return (
+      <Stack component="ul">
+        {(mediaSearch.data ?? []).map((item) => (
+          <li key={`${item.mediaType}:${item.externalId}`}>{item.title}</li>
+        ))}
+      </Stack>
+    )
   }
 
   return (
     <>
       <AppHeader />
 
-      <main className="page-container">
-        <h2>Catálogo destacado</h2>
-        <SearchInput value={query} onQueryChange={setQuery} />
-        <MediaTypeFilter
-          value={mediaTypeFilter}
-          onFilterChange={setMediaTypeFilter}
-        />
-        <div className="filter-summary">
-          <p>Mostrando {resultCount} de {mediaItems.length}</p>
-          <button
-            type="button"
-            onClick={handleClearFilters}
-            disabled={!hasActiveFilters}
-          >
-            Limpiar filtros
-          </button>
-        </div>
-        {hasNoResults ? (
-          <EmptyState
-            title="Sin resultados"
-            description="No encontramos medios que coincidan con tus filtros."
-          />
-        ) : (
-          <MediaGrid items={visibleMedia} onSelect={handleSelectMedia} />
-        )}
-      </main>
-      <Modal
-        opened={isDetailOpened}
-        onClose={handleCloseDetail}
-        title={selectedMedia?.title ?? 'Detalle'}
-        closeButtonProps={{ 'aria-label': 'Cerrar detalle' }}
-        centered
-      >
-        {selectedMedia !== null ? (
-          <MediaDetailContent media={selectedMedia} />
-        ) : null}
-      </Modal>
+      <Container component="main" py="xl" size="md">
+        <Stack gap="xl">
+          <div>
+            <Title order={2}>Busca en el catálogo remoto</Title>
+            <Text c="dimmed">
+              Confirma un título y un tipo para consultar la API.
+            </Text>
+          </div>
+
+          <form onSubmit={handleSubmit}>
+            <Stack>
+              <TextInput
+                label="Título"
+                minLength={2}
+                onChange={(event) =>
+                  setDraftQuery(event.currentTarget.value)
+                }
+                placeholder="Dune"
+                value={draftQuery}
+              />
+
+              <Select
+                allowDeselect={false}
+                data={[
+                  { label: 'Película', value: 'movie' },
+                  { label: 'Serie', value: 'series' },
+                ]}
+                label="Tipo"
+                onChange={(value) => {
+                  if (value === 'movie' || value === 'series') {
+                    setDraftMediaType(value)
+                  }
+                }}
+                value={draftMediaType}
+              />
+
+              <Group justify="flex-end">
+                <Button
+                  disabled={draftQuery.trim().length < 2}
+                  type="submit"
+                >
+                  Buscar
+                </Button>
+              </Group>
+            </Stack>
+          </form>
+
+          {mediaSearch.isFetching && !mediaSearch.isLoading ? (
+            <Text size="sm">Actualizando resultados…</Text>
+          ) : null}
+
+          {renderSearchContent()}
+        </Stack>
+      </Container>
     </>
   )
 }
