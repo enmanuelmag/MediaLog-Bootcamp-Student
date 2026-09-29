@@ -5,13 +5,12 @@ import type {
   MediaSearchItemDto,
   SearchMediaInput,
 } from '../types/media-api'
-
-const API_URL = import.meta.env.VITE_API_URL
+import { requestJson } from './http'
 
 export async function searchMedia(
   input: SearchMediaInput,
 ): Promise<MediaSearchItemDto[]> {
-  const response = await fetch(`${API_URL}/api/v2/media/search`, {
+  return requestJson<MediaSearchItemDto[]>('/api/v2/media/search', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -19,24 +18,13 @@ export async function searchMedia(
     body: JSON.stringify(input),
   })
 
-  if (!response.ok) {
-    throw new Error(`La API respondió con status ${response.status}`)
-  }
-
-  return (await response.json()) as MediaSearchItemDto[]
 }
 
 export async function getMediaDetail(
   input: GetMediaDetailInput,
 ): Promise<MediaDetailDto> {
   const params = toMediaDetailSearchParams(input)
-  const response = await fetch(
-    `${API_URL}/api/v2/media/detail?${params.toString()}`,
+  return requestJson<MediaDetailDto>(
+    `/api/v2/media/detail?${params.toString()}`,
   )
-
-  if (!response.ok) {
-    throw new Error(`La API respondió con status ${response.status}`)
-  }
-
-  return (await response.json()) as MediaDetailDto
 }
