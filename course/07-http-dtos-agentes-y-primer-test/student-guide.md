@@ -692,7 +692,7 @@ export const MEDIA_PRIORITY_VALUES = ['low', 'medium', 'high'] as const
 export type MediaPriority = (typeof MEDIA_PRIORITY_VALUES)[number]
 
 export type UserMediaDataDto = {
-  id: number
+  id: string
   title: string
   status: MediaStatus
   priority: MediaPriority
