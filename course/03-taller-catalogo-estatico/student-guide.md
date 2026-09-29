@@ -2,7 +2,7 @@
 
 - **Modalidad:** presencial
 - **Duración:** 180 minutos, incluido un descanso de 30 minutos
-- **Preparación:** [lectura previa y cuestionario](pre-class-reading.md)
+- **Preparación:** [lectura previa](pre-class-reading.md)
 - **Taller:** [encargo y rúbrica](workshop-rubric.md)
 
 ## Objetivo

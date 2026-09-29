@@ -2,7 +2,7 @@
 
 - **Modalidad:** virtual
 - **Duración:** 90 minutos
-- **Preparación:** [lectura previa y cuestionario](pre-class-reading.md)
+- **Preparación:** [lectura previa](pre-class-reading.md)
 
 ## Objetivo
 
