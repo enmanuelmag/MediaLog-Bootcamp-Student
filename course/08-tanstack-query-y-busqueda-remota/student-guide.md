@@ -20,14 +20,14 @@ Piensa en una mesa de estudio dentro de una biblioteca. La API es la biblioteca 
 
 Necesitas el checkpoint completo de la sesión 07:
 
-- `.env.local` contiene la URL entregada por el docente.
+- `.env.local` contiene `VITE_API_URL=https://bootcamp-medialog.cardor.dev`.
 - `src/api/media.ts` exporta `searchMedia()`.
 - `src/types/media-api.ts` exporta `SearchMediaInput` y `MediaSearchItemDto`.
 - `src/types/media-item.ts` exporta `MediaType`.
 - El explorador local y el modal todavía funcionan.
 - `pnpm test` y `pnpm build` terminaban correctamente.
 
-No pegues una URL, token o credencial en los archivos de la guía ni en Git.
+La URL base de esta API es pública y también aparece en `.env.example`. No guardes tokens, contraseñas, claves privadas ni cuentas de servicio en la guía o en Git.
 
 ## Resultado esperado
 
