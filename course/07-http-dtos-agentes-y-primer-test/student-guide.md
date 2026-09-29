@@ -590,8 +590,10 @@ El lockfile lo genera pnpm. No lo escribas a mano. A continuación están **comp
 ### `.env.example` · archivo completo
 
 ```dotenv
-VITE_API_URL=http://localhost:3000
+VITE_API_URL=https://bootcamp-medialog.cardor.dev
 ```
+
+La variable contiene solo la base, sin slash final y sin `/api`. Cada función de `src/api/media.ts` agrega la ruta de su endpoint.
 
 ### `package.json` · archivo completo
 
