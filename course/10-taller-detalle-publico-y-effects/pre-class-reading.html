@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Lectura previa de Sesión 10 para React Guide VI">
+    <title>Lectura previa · Sesión 10 · Consultas dependientes y Effects</title>
+    <style>
+      :root {
+        --paper: #fbfbfe;
+        --paper-2: #f3f5fb;
+        --ink: #17233f;
+        --ink-2: #45536f;
+        --muted: #66738d;
+        --rule: #d5dced;
+        --accent: #354f9f;
+        --accent-soft: #e7ecfb;
+        --code: #17233f;
+        --code-ink: #f5f7fc;
+        --success: #287d72;
+        --display: Sora, Aptos Display, "Segoe UI", sans-serif;
+        --body: "IBM Plex Sans", Aptos, "Segoe UI", sans-serif;
+        --mono: "JetBrains Mono", Consolas, monospace;
+      }
+
+      * { box-sizing: border-box; }
+      body { margin: 0; color: var(--ink); background: var(--paper-2); font-family: var(--body); font-size: 18px; line-height: 1.6; }
+      .page { width: min(100% - 32px, 960px); margin: 32px auto; overflow: hidden; border: 1px solid var(--rule); border-radius: 12px; background: var(--paper); box-shadow: 0 16px 48px rgb(24 36 63 / 10%); }
+      header { padding: 56px 64px 48px; color: var(--paper); background: linear-gradient(135deg, var(--accent), #263b7c); }
+      .label { margin: 0 0 12px; color: #dbe4ff; font-family: var(--mono); font-size: 13px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; }
+      header h1 { max-width: 18ch; margin: 0; font-family: var(--display); font-size: clamp(34px, 6vw, 58px); letter-spacing: -.045em; line-height: 1.04; }
+      header .rule { width: 80px; height: 4px; margin-top: 28px; background: #8ee0cf; }
+      main { padding: 56px 64px 72px; }
+      main > h1 { display: none; }
+      h2, h3 { font-family: var(--display); letter-spacing: -.03em; line-height: 1.15; }
+      h2 { margin: 56px 0 18px; padding-top: 18px; border-top: 2px solid var(--rule); font-size: 30px; }
+      h2:first-child { margin-top: 0; }
+      h3 { margin: 32px 0 12px; color: var(--accent); font-size: 22px; }
+      p { max-width: 72ch; margin: 0 0 18px; }
+      ul, ol { max-width: 72ch; margin: 0 0 22px; padding-left: 1.4em; }
+      li { margin: 8px 0; padding-left: .25em; }
+      li::marker { color: var(--accent); font-weight: 700; }
+      a { color: var(--accent); font-weight: 600; text-decoration-thickness: 2px; text-underline-offset: 3px; }
+      strong { color: var(--ink); }
+      code { padding: .14em .36em; border-radius: 4px; background: var(--accent-soft); color: #263b7c; font-family: var(--mono); font-size: .88em; }
+      pre { margin: 24px 0; padding: 24px; overflow-x: auto; border-radius: 8px; background: var(--code); color: var(--code-ink); box-shadow: inset 4px 0 var(--success); }
+      pre code { padding: 0; background: transparent; color: inherit; font-size: .82em; line-height: 1.55; }
+      blockquote { max-width: 72ch; margin: 24px 0; padding: 16px 20px; border-left: 4px solid var(--success); background: #ecf8f5; color: var(--ink-2); }
+      .table-wrap { max-width: 100%; margin: 24px 0; overflow-x: auto; border: 1px solid var(--rule); border-radius: 8px; }
+      table { width: 100%; border-collapse: collapse; font-size: .9em; }
+      th, td { padding: 12px 14px; border-bottom: 1px solid var(--rule); text-align: left; vertical-align: top; }
+      th { background: var(--accent-soft); color: var(--accent); font-family: var(--display); }
+      tbody tr:last-child td { border-bottom: 0; }
+      footer { display: flex; gap: 12px; align-items: center; padding: 20px 64px; border-top: 1px solid var(--rule); color: var(--muted); font-size: 14px; }
+      footer::before { width: 9px; height: 9px; border-radius: 50%; background: var(--success); content: ""; }
+      @media (max-width: 700px) { .page { width: 100%; margin: 0; border: 0; border-radius: 0; } header, main { padding: 36px 24px; } footer { padding: 18px 24px; } body { font-size: 17px; } }
+      @media print { body { background: white; } .page { width: 100%; margin: 0; border: 0; box-shadow: none; } a { color: inherit; } }
+    </style>
+  </head>
+  <body>
+    <article class="page">
+      <header>
+        <p class="label">React Guide VI · Lectura previa</p>
+        <h1>Lectura previa · Sesión 10 · Consultas dependientes y Effects</h1>
+        <div class="rule"></div>
+      </header>
+      <main><h1>Lectura previa · Sesión 10 · Consultas dependientes y Effects</h1>
+<ul><li><strong>Tiempo estimado:</strong> 20 minutos</li><li><strong>Propósito:</strong> reconocer cuándo una query debe esperar un input y cuándo React necesita sincronizarse con un sistema externo.</li></ul>
+<p>No necesitas memorizar una API. Lee con una pregunta en mente: ¿quién debe ser propietario de cada cambio?</p>
+<h2>Fuente 1 · TanStack Query</h2>
+<p>Lee <a href="https://tanstack.com/query/latest/docs/framework/react/guides/disabling-queries" target="_blank" rel="noreferrer">Disabling/Pausing Queries</a> desde el inicio hasta la explicación de <code>isLoading</code>.</p>
+<p>Mientras lees, identifica:</p>
+<ul><li>qué hace <code>enabled: false</code>;</li><li>qué ocurre si una query deshabilitada no tiene datos en caché;</li><li>la diferencia entre <code>status</code> y <code>fetchStatus</code>;</li><li>por qué <code>isLoading</code> permite detectar la primera carga real;</li><li>por qué una dependencia disponible después no obliga a convertir la query en una llamada imperativa.</li></ul>
+<h3>Situación para observar</h3>
+<p>Una página recibe identidad desde una URL. Mientras la identidad sea inválida, la query debe existir en el mismo lugar del componente, pero no debe ejecutar una request.</p>
+<pre><code class="language-text">input válido      → query habilitada → puede solicitar datos
+input inexistente → query declarada  → no solicita datos</code></pre>
+<p>No copies el ejemplo de la documentación. Explica qué problema resuelve <code>enabled</code>.</p>
+<h2>Fuente 2 · React</h2>
+<p>Lee <a href="https://react.dev/learn/synchronizing-with-effects" target="_blank" rel="noreferrer">Synchronizing with Effects</a> en estas secciones:</p>
+<ol><li><strong>What are Effects and how are they different from events?</strong></li><li><strong>Step 3: Add cleanup if needed</strong></li><li><strong>How to handle the Effect firing twice in development?</strong></li></ol>
+<p>Mientras lees, identifica:</p>
+<ul><li>qué convierte una operación en sincronización con un sistema externo;</li><li>por qué un evento de usuario y un Effect no representan el mismo momento;</li><li>cuándo React ejecuta cleanup;</li><li>qué intenta revelar el ciclo adicional de desarrollo;</li><li>por qué retirar Strict Mode no corrige un Effect incompleto.</li></ul>
+<h3>Situación para observar</h3>
+<p><code>document.title</code> vive fuera del árbol de React. Una pantalla puede asignar un título al montarse y restaurar el anterior al desmontarse.</p>
+<pre><code class="language-text">setup   → recordar título anterior → asignar título del medio
+cleanup → restaurar título anterior</code></pre>
+<h2>Conexión con el proyecto</h2>
+<p>La sesión 09 dejó esta cadena:</p>
+<pre><code class="language-text">Link → URL → params → GetMediaDetailInput | null</code></pre>
+<p>La sesión 10 completará:</p>
+<pre><code class="language-text">input nullable → query de detalle → DTO → modelo visual → contenido
+                                                    └→ document.title</code></pre>
+<p>TanStack Query administrará los datos remotos. El Effect administrará únicamente la sincronización con el título del documento.</p></main>
+      <footer>Material de preparación · Sesión 10</footer>
+    </article>
+  </body>
+</html>
