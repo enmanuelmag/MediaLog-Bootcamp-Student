@@ -5,7 +5,6 @@
 Llegar al taller con un criterio inicial para dividir una interfaz estática en componentes y reconocer cómo un componente puede devolver JSX distinto según sus props. Durante la sesión reorganizarás el catálogo sin añadir estado o interacción.
 
 - **Tiempo estimado:** 22 minutos
-- **Entrega:** cuestionario cerrado en la plataforma institucional antes de la clase
 - **Stack de la cohorte:** React `19.2.8`, TypeScript `6.0.3` y pnpm `11.17.0`
 - **Fecha de verificación de fuentes:** 29 de agosto de 2026
 
@@ -65,7 +64,7 @@ La lectura muestra técnicas generales. No contiene los nombres, textos o estruc
 1. Dedica 14 minutos a `Thinking in React`.
 2. Dibuja el árbol del catálogo de la sesión 02 con `App` y `MediaCard`.
 3. Dedica 6 minutos a `Conditional Rendering`.
-4. Usa los últimos 2 minutos para responder el cuestionario.
+4. Usa los últimos 2 minutos para revisar el vocabulario y anotar una duda.
 
 No extraigas componentes antes de la clase. El grupo necesita observar el mismo punto de entrada para decidir los límites juntos.
 
@@ -79,50 +78,3 @@ No extraigas componentes antes de la clase. El grupo necesita observar el mismo 
 - **Renderizado condicional:** selección del JSX que una función devuelve según una condición.
 - **Retorno temprano:** retorno ejecutado antes de la salida principal de una función.
 - **Refactorización:** cambio de organización que conserva el comportamiento visible.
-
-## Cuestionario previo
-
-### Pregunta 1 · Opción múltiple
-
-¿Cuándo conviene separar una parte de la interfaz en un componente?
-
-- A. Cuando cumple una responsabilidad clara dentro de la interfaz.
-- B. Que cada etiqueta HTML viva en un archivo distinto.
-- C. Que el archivo resultante tenga menos de diez líneas.
-- D. Que el componente declare estado propio.
-
-### Pregunta 2 · Verdadero o falso
-
-Una interfaz estática puede mostrar datos recibidos por props sin usar estado.
-
-- Verdadero
-- Falso
-
-### Pregunta 3 · Opción múltiple
-
-¿Cómo pasan los datos entre los componentes de la versión estática?
-
-- A. Los hijos modifican directamente los datos del padre.
-- B. Pasan de los componentes padres a los componentes hijos.
-- C. Cada componente importa la misma fuente de datos.
-- D. El navegador reparte los datos entre componentes hermanos.
-
-### Pregunta 4 · Opción múltiple
-
-¿Qué puede usar un componente para elegir qué JSX devolver?
-
-- A. Solo una librería externa.
-- B. Una condición `if` de JavaScript.
-- C. Una hoja CSS separada.
-- D. Un segundo elemento `root` en HTML.
-
-### Pregunta 5 · Verdadero o falso
-
-Un componente puede mostrar una interfaz diferente cuando recibe props diferentes.
-
-- Verdadero
-- Falso
-
-## Entrega
-
-Envía una respuesta por pregunta en la plataforma indicada por el docente. Este archivo no marca las respuestas correctas. El docente recuperará la pregunta con mayor porcentaje de error durante la apertura.

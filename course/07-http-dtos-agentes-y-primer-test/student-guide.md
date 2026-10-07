@@ -459,6 +459,43 @@ searchMedia({ query: "Dune", mediaType: "movie" })
 
 No agregues `useState` ni `useEffect`.
 
+### Prueba rápida · Ver el JSON que responde el backend
+
+Esta comprobación es opcional dentro de este paso; no añade archivos al proyecto. Puedes hacerla también antes de la clase para comprobar que el servicio responde.
+
+**Detalle: enlaces que sí puedes abrir en una pestaña.** El navegador realiza un GET:
+
+- [Dune (2021) · película](https://bootcamp-medialog.cardor.dev/api/v2/media/detail?externalId=438631&mediaType=movie).
+- [Breaking Bad · serie](https://bootcamp-medialog.cardor.dev/api/v2/media/detail?externalId=1396&mediaType=series).
+
+Abre uno y localiza `catalog.title`, `catalog.mediaType`, `entry` e `isLogged`. En la comprobación anónima del 3 de octubre de 2026 ambos enlaces respondieron HTTP 200; `entry` fue `null` e `isLogged` fue `false`. Son respuestas observadas en esa fecha, no un fixture garantizado.
+
+**Búsqueda: usa `/api/v2/media/search` con POST y body JSON.** No basta con abrirla en una pestaña: eso envía GET. La búsqueda GET con query string devolvió 404 en la comprobación, porque no es la ruta definida para este caso.
+
+En Terminal de macOS/Linux ejecuta:
+
+```sh
+curl -i -X POST 'https://bootcamp-medialog.cardor.dev/api/v2/media/search' \
+  -H 'Content-Type: application/json' \
+  --data '{"query":"Dune","mediaType":"movie"}'
+```
+
+Para buscar series, conserva endpoint, método y header; cambia el body. Ejemplo completo:
+
+```sh
+curl -i -X POST 'https://bootcamp-medialog.cardor.dev/api/v2/media/search' \
+  -H 'Content-Type: application/json' \
+  --data '{"query":"Breaking Bad","mediaType":"series"}'
+```
+
+Si usas Postman u otro cliente HTTP, copia la URL, selecciona **POST**, añade `Content-Type: application/json` y pega el JSON en el body. No hace falta iniciar sesión para estos ejemplos públicos.
+
+`-i` muestra el status y los headers antes del JSON; `-X POST` elige el método; `-H` declara el formato del body; `--data` envía los parámetros. La terminal devuelve el JSON como texto: no agrega tarjetas ni estado a React.
+
+Busca un resultado y señala `externalId`, `title`, `releaseYear`, `coverUrl` y `mediaType`. La búsqueda devuelve un **arreglo**; el detalle devuelve un **objeto** con `catalog`, `entry` e `isLogged`. La API puede incluir campos adicionales que no necesitamos modelar todavía.
+
+Los IDs de los enlaces son accesos rápidos de inspección. En el `ApiProbe`, sigue usando `externalId` y `mediaType` del resultado real de búsqueda. La terminal demuestra una respuesta HTTP; para comprobar el request desde la app y CORS conserva el recorrido de Network de este paso.
+
 Abre Network antes del click y completa:
 
 | Request | Método observado | URL observada | Payload observado | Status observado |

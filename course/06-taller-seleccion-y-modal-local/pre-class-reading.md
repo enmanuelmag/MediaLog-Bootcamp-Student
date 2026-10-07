@@ -5,7 +5,6 @@
 Llegar a la sesión con un criterio para guardar una selección sin duplicar objetos y reconocer por qué un estado compartido pertenece al ancestro común de los componentes que lo usan.
 
 - **Tiempo estimado:** 20 minutos
-- **Entrega:** cuestionario cerrado en la plataforma institucional antes de la clase
 - **Stack de la cohorte:** React `19.2.8`, TypeScript `6.0.3`, Mantine `9.4.1` y pnpm `11.17.0`
 - **Fecha de verificación de fuentes:** 30 de agosto de 2026
 
@@ -72,7 +71,7 @@ Identifica:
 2. Dibuja `items`, `selectedId` y `selectedItem`.
 3. Dedica 8 minutos a los tres pasos para elevar estado.
 4. Dibuja un padre con dos hijos y coloca el estado en el padre.
-5. Usa los últimos 2 minutos para responder el cuestionario.
+5. Usa los últimos 2 minutos para revisar el vocabulario y anotar una duda.
 
 No modifiques todavía el proyecto. La sesión construirá el recorrido sobre el checkpoint de filtros.
 
@@ -85,50 +84,3 @@ No modifiques todavía el proyecto. La sesión construirá el recorrido sobre el
 - **Ancestro común:** componente más cercano que contiene las ramas que necesitan coordinarse.
 - **Callback:** función que un componente puede ejecutar para comunicar una acción.
 - **Fuente de verdad:** componente que conserva la versión autoritativa de un estado.
-
-## Cuestionario previo
-
-### Pregunta 1 · Opción múltiple
-
-Si la lista ya guarda los objetos completos, ¿qué riesgo existe al copiar el objeto seleccionado en otro estado?
-
-- A. Los mismos datos quedan duplicados y las dos copias pueden diferir.
-- B. React elimina el objeto de la lista.
-- C. `find` deja de funcionar para los demás elementos.
-- D. El id se convierte automáticamente en string.
-
-### Pregunta 2 · Opción múltiple
-
-¿Qué dato mínimo conviene guardar para identificar el elemento seleccionado?
-
-- A. Una segunda copia del arreglo.
-- B. El id del elemento seleccionado.
-- C. Un booleano dentro de cada objeto.
-- D. El JSX completo de la tarjeta.
-
-### Pregunta 3 · Verdadero o falso
-
-Si `items.find(...)` permite obtener `selectedItem`, conviene calcularlo durante el render y no guardarlo en otro estado.
-
-- Verdadero
-- Falso
-
-### Pregunta 4 · Opción múltiple
-
-Dos componentes hermanos usan el mismo estado. ¿Qué componente debe guardarlo?
-
-- A. En ambos hijos con valores duplicados.
-- B. El componente padre más cercano que comparten.
-- C. En una variable global mutable.
-- D. Dentro del archivo CSS.
-
-### Pregunta 5 · Verdadero o falso
-
-Un padre puede pasar una función por props para que un hijo solicite un cambio en el estado del padre.
-
-- Verdadero
-- Falso
-
-## Entrega
-
-Envía una respuesta por pregunta en la plataforma indicada por el docente. Este archivo no marca las respuestas correctas. La clase recuperará la pregunta con mayor porcentaje de error.
