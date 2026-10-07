@@ -1,36 +1,47 @@
-import { Anchor, Code, Container, Stack, Text, Title } from '@mantine/core'
-import { Link, useParams } from 'react-router'
+import { Anchor, Button, Code, Container, Group, Stack, Text, Title } from '@mantine/core'
+import { useState } from 'react'
+import { Link } from 'react-router'
 
-import { toMediaDetailInput } from '../adapters/media-detail-route-params-to-input'
+import { useMediaDetail } from '../hooks/features/use-media'
+import { mediaKeys } from '../hooks/media-keys'
+import type { GetMediaDetailInput } from '../types/media-api'
 
 export function MediaDetailPage() {
-  const detailInput = toMediaDetailInput(useParams())
-
-  if (detailInput === null) {
-    return (
-      <Container py="xl" size="sm">
-        <Stack>
-          <Title order={1}>URL de detalle no válida</Title>
-          <Text>Revisa el tipo y el identificador del medio.</Text>
-          <Anchor component={Link} to="/search">
-            Volver a la búsqueda
-          </Anchor>
-        </Stack>
-      </Container>
-    )
-  }
+  // Demostración: todavía no usamos la identidad de la URL.
+  const [demoInput, setDemoInput] = useState<GetMediaDetailInput | null>(null)
+  const detailQuery = useMediaDetail(demoInput)
 
   return (
-    <Container py="xl" size="sm">
-      <Stack>
-        <Title order={1}>Detalle provisional</Title>
+    <Container py="xl" size="md">
+      <Stack gap="lg">
+        <Title order={1}>Laboratorio de detalle</Title>
+
+        <Group>
+          <Button
+            onClick={() => setDemoInput({ mediaType: 'movie', externalId: '438631' })}
+          >
+            Consultar película
+          </Button>
+
+          <Button
+            onClick={() => setDemoInput({ mediaType: 'series', externalId: '1399' })}
+          >
+            Consultar serie
+          </Button>
+
+          <Button variant="light" onClick={() => setDemoInput(null)}>
+            Sin identidad
+          </Button>
+        </Group>
+
+        <Code block>{JSON.stringify(mediaKeys.detail(demoInput), null, 2)}</Code>
+
         <Text>
-          La ruta ya produjo un input válido. La próxima sesión consultará el
-          detalle remoto.
+          Datos: {detailQuery.status} · Red: {detailQuery.fetchStatus}
         </Text>
-        <Code block>
-          {JSON.stringify(detailInput, null, 2)}
-        </Code>
+
+        <Code block>{JSON.stringify(detailQuery.data ?? null, null, 2)}</Code>
+
         <Anchor component={Link} to="/search">
           Volver a la búsqueda
         </Anchor>

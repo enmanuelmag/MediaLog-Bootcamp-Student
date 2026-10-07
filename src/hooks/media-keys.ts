@@ -1,4 +1,4 @@
-import type { SearchMediaInput } from '../types/media-api'
+import type { GetMediaDetailInput, SearchMediaInput } from '../types/media-api'
 
 export const mediaKeys = {
   all: ['media'] as const,
@@ -11,4 +11,7 @@ export const mediaKeys = {
         mediaType: input.mediaType,
       },
     ] as const,
+  details: () => [...mediaKeys.all, 'detail'] as const,
+  detail: (input: GetMediaDetailInput | null) =>
+    [...mediaKeys.details(), input] as const,
 }

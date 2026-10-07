@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 
-import { searchMedia } from '../../api/media'
-import type { SearchMediaInput } from '../../types/media-api'
+import { getMediaDetail, searchMedia } from '../../api/media'
+import type { GetMediaDetailInput, SearchMediaInput } from '../../types/media-api'
 import { mediaKeys } from '../media-keys'
 
 const emptySearch: SearchMediaInput = {
@@ -22,5 +22,20 @@ export function useMediaSearch(input: SearchMediaInput | null) {
     queryKey: mediaKeys.search(normalizedInput),
     queryFn: () => searchMedia(normalizedInput),
     enabled: input !== null && normalizedInput.query.length >= 2,
+  })
+}
+
+export function useMediaDetail(input: GetMediaDetailInput | null) {
+  return useQuery({
+    queryKey: mediaKeys.detail(input),
+    queryFn: () => {
+
+      if (input === null) {
+        throw new Error('Falta la identidad del medio')
+      }
+
+      return getMediaDetail(input)
+    },
+    enabled: input !== null,
   })
 }
