@@ -2,6 +2,7 @@ import { Anchor, Button, Code, Container, Group, Stack, Text, Title } from '@man
 import { useState } from 'react'
 import { Link } from 'react-router'
 
+import { demoCatalog, demoMediaDetail } from '../data/demo-media-detail'
 import { useMediaDetail } from '../hooks/features/use-media'
 import { mediaKeys } from '../hooks/media-keys'
 import type { GetMediaDetailInput } from '../types/media-api'
@@ -41,6 +42,14 @@ export function MediaDetailPage() {
         </Text>
 
         <Code block>{JSON.stringify(detailQuery.data ?? null, null, 2)}</Code>
+
+        <Title order={2}>Traducción con datos locales</Title>
+
+        <Text>DTO de demostración</Text>
+        <Code block>{JSON.stringify(demoCatalog, null, 2)}</Code>
+
+        <Text>Modelo visual</Text>
+        <Code block>{JSON.stringify(demoMediaDetail, null, 2)}</Code>
 
         <Anchor component={Link} to="/search">
           Volver a la búsqueda
