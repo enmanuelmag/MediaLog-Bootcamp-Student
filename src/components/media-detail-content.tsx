@@ -1,24 +1,56 @@
-import type { MediaItem } from '../types/media-item'
+import { Badge, Group, Image, Stack, Text, Title } from '@mantine/core'
 
-import { MediaTypeBadge } from './media-type-badge'
+import type { MediaDetailModel } from '../types/media-detail-model'
 
-type MediaDetailContentProps = {
-  media: MediaItem
-}
+type MediaDetailContentProps = Readonly<{
+  model: MediaDetailModel
+}>
 
 export function MediaDetailContent(props: MediaDetailContentProps) {
-  const { media } = props
+  const { model } = props
+  const typeLabel = model.mediaType === 'movie' ? 'Película' : 'Serie'
 
   return (
-    <article className="media-detail-content">
-      {media.posterUrl !== null ? (
-        <img src={media.posterUrl} alt="" />
+    <Stack component="article" gap="md">
+      <Title order={1}>{model.title}</Title>
+
+      <Group>
+        <Badge>{typeLabel}</Badge>
+        <Text>{model.releaseLabel}</Text>
+      </Group>
+
+      {model.posterUrl !== null ? (
+        <Image
+          src={model.posterUrl}
+          alt={`Portada de ${model.title}`}
+          h={300}
+          w="auto"
+          fit="contain"
+        />
+      ) : null}
+
+      <Text>{model.description ?? 'Sin descripción disponible'}</Text>
+
+      <Group gap="xs">
+        {model.genres.map((genre) => (
+          <Badge key={genre} variant="light">
+            {genre}
+          </Badge>
+        ))}
+      </Group>
+
+      {model.mediaType === 'movie' ? (
+        <Text>Duración: {model.durationMinutes ?? 'No disponible'} min</Text>
       ) : (
-        <p>Poster no disponible</p>
+        <Stack gap="xs">
+          <Text>Temporadas: {model.seasonsCount ?? 'No disponible'}</Text>
+          <Text>Episodios: {model.episodesCount ?? 'No disponible'}</Text>
+        </Stack>
       )}
-      <MediaTypeBadge mediaType={media.mediaType} />
-      <p>{media.releaseDate}</p>
-      <p>{media.description ?? 'Sin descripción disponible'}</p>
-    </article>
+
+      {model.reviewScore !== null ? (
+        <Text>Puntuación: {model.reviewScore}</Text>
+      ) : null}
+    </Stack>
   )
 }
