@@ -1,8 +1,10 @@
-import { Code, Container } from '@mantine/core'
-import { useParams } from 'react-router'
+import { Anchor, Container, Stack } from '@mantine/core'
+import { Link, useParams } from 'react-router'
 
 import { mediaCatalogDetailToModel } from '../adapters/media-catalog-detail-to-model'
 import { toMediaDetailInput } from '../adapters/media-detail-route-params-to-input'
+import { MediaDetailContent } from '../components/media-detail-content'
+import { MediaDocumentTitle } from '../components/media-document-title'
 import { PageState } from '../components/page-state'
 import { useMediaDetail } from '../hooks/features/use-media'
 
@@ -41,7 +43,15 @@ export function MediaDetailPage() {
 
   return (
     <Container py="xl" size="md">
-      <Code block>{JSON.stringify(model, null, 2)}</Code>
+      <Stack gap="lg">
+        <MediaDocumentTitle title={model.title} />
+
+        <MediaDetailContent model={model} />
+
+        <Anchor component={Link} to="/search">
+          Volver a la búsqueda
+        </Anchor>
+      </Stack>
     </Container>
   )
 }
