@@ -5,7 +5,6 @@
 Llegar a la sesión con una definición de prop y reconocer tres formas de TypeScript que usaremos para describir los datos de una película o serie. Durante la clase convertirás la tarjeta fija de la sesión 01 en un componente que representa seis medios distintos.
 
 - **Tiempo estimado:** 22 minutos
-- **Entrega:** cuestionario cerrado en la plataforma institucional antes de la clase
 - **Stack de la cohorte:** React `19.2.8`, TypeScript `6.0.3` y pnpm `11.17.0`
 - **Fecha de verificación de fuentes:** 29 de agosto de 2026
 
@@ -71,7 +70,7 @@ El checkpoint usa TypeScript `6.0.3` con comprobaciones estrictas. La documentac
 1. Dedica 11 minutos a la fuente de React.
 2. Escribe un ejemplo corto con un padre que entregue `title` y un hijo que lo lea.
 3. Dedica 9 minutos a las secciones indicadas de TypeScript.
-4. Usa los últimos 2 minutos para responder el cuestionario.
+4. Usa los últimos 2 minutos para revisar el vocabulario y anotar una duda.
 
 No modifiques todavía `MediaCard`. La clase comenzará desde el mismo componente fijo para hacer visible la transformación.
 
@@ -85,56 +84,3 @@ No modifiques todavía `MediaCard`. La clase comenzará desde el mismo component
 - **Literal:** valor concreto usado como tipo, como `"movie"`.
 - **`null`:** valor que representa una ausencia explícita.
 - **Arreglo tipado:** arreglo cuyos elementos deben cumplir un tipo determinado.
-
-## Cuestionario previo
-
-### Pregunta 1 · Opción múltiple
-
-¿Cómo envía un componente padre la prop `title` a `MediaCard`?
-
-- A. En el nombre del archivo del componente hijo.
-- B. La escribe en el JSX: `<MediaCard title="Arrival" />`.
-- C. En una hoja de estilos global.
-- D. En el comando que inicia Vite.
-
-### Pregunta 2 · Verdadero o falso
-
-Un componente hijo no debe modificar las props que recibe.
-
-- Verdadero
-- Falso
-
-### Pregunta 3 · Opción múltiple
-
-¿Cómo se escribe en TypeScript un arreglo de elementos `MediaItem`?
-
-- A. `MediaItem[]`
-- B. `[MediaItem]`
-- C. `MediaItem{}`
-- D. `array(MediaItem)`
-
-### Pregunta 4 · Opción múltiple
-
-¿Qué valores permite este tipo?
-
-```ts
-type MediaType = 'movie' | 'series'
-```
-
-- A. Cualquier string.
-- B. Solo `movie`.
-- C. Solo `movie` o `series`.
-- D. Un arreglo que contenga `movie` y `series`.
-
-### Pregunta 5 · Opción múltiple
-
-Con `strictNullChecks`, ¿qué valor puede tener `description: string | null`?
-
-- A. Un string o `null`.
-- B. La propiedad puede omitirse sin declararla.
-- C. TypeScript convertirá `null` en un string.
-- D. La propiedad acepta cualquier tipo de valor.
-
-## Entrega
-
-Envía una respuesta por pregunta en la plataforma indicada por el docente. Este archivo no marca las respuestas correctas. La clase recuperará la pregunta con mayor porcentaje de error.

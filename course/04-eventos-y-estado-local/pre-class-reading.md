@@ -5,7 +5,6 @@
 Llegar a la sesión con una explicación inicial de por qué una variable local no basta para conservar una interacción y reconocer las dos partes de un input controlado. Durante la clase usarás esas ideas para buscar películas y series por título.
 
 - **Tiempo estimado:** 20 minutos
-- **Entrega:** cuestionario cerrado en la plataforma institucional antes de la clase
 - **Stack de la cohorte:** React `19.2.8`, TypeScript `6.0.3` y pnpm `11.17.0`
 - **Fecha de verificación de fuentes:** 29 de agosto de 2026
 
@@ -69,7 +68,7 @@ La sesión usa un input de búsqueda, pero conserva el mismo circuito `value →
 2. Dibuja dos cajas: `React recuerda` y `JavaScript calcula`.
 3. Coloca `query` en la primera y `mediaItems.length` en la segunda.
 4. Dedica 6 minutos a la sección del input controlado.
-5. Usa los últimos 2 minutos para responder el cuestionario.
+5. Usa los últimos 2 minutos para revisar el vocabulario y anotar una duda.
 
 No modifiques todavía el proyecto. La clase comenzará desde el catálogo estático para observar cada cambio.
 
@@ -83,50 +82,3 @@ No modifiques todavía el proyecto. La clase comenzará desde el catálogo está
 - **Setter:** función que solicita un render con otro valor de estado.
 - **Render:** ejecución con la que React calcula la interfaz de un componente.
 - **Input controlado:** campo cuyo valor visible proviene de React.
-
-## Cuestionario previo
-
-### Pregunta 1 · Opción múltiple
-
-¿Por qué cambiar una variable local dentro de un evento no actualiza la interfaz?
-
-- A. Las variables locales solo aceptan números.
-- B. El cambio no pide otro render y la variable se crea de nuevo en cada render.
-- C. Los handlers no pueden leer variables.
-- D. React convierte la variable en una prop.
-
-### Pregunta 2 · Opción múltiple
-
-¿Qué dos valores devuelve `useState`?
-
-- A. El valor del estado y una función para actualizarlo.
-- B. Dos componentes React.
-- C. Un evento y un elemento HTML.
-- D. Una prop y una hoja de estilos.
-
-### Pregunta 3 · Verdadero o falso
-
-Se puede llamar `useState` dentro de un `if` que cambia entre renders.
-
-- Verdadero
-- Falso
-
-### Pregunta 4 · Opción múltiple
-
-¿Qué necesita un input controlado para que la persona pueda editarlo?
-
-- A. `defaultValue` sin handler.
-- B. `value` sin `onChange`.
-- C. `value` y un `onChange` que guarda el nuevo texto en el estado.
-- D. `onClick` y una variable local.
-
-### Pregunta 5 · Verdadero o falso
-
-Si un input controlado comienza vacío, su estado puede iniciar con `""`.
-
-- Verdadero
-- Falso
-
-## Entrega
-
-Envía una respuesta por pregunta en la plataforma indicada por el docente. Este archivo no marca las respuestas correctas. La clase recuperará la pregunta con mayor porcentaje de error.
