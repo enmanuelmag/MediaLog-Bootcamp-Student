@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { Link } from 'react-router'
 
 import { MediaDetailContent } from '../components/media-detail-content'
+import { MediaDocumentTitle } from '../components/media-document-title'
 import { PageState } from '../components/page-state'
 import { demoMediaDetail } from '../data/demo-media-detail'
 import { useMediaDetail } from '../hooks/features/use-media'
@@ -51,6 +52,8 @@ export function MediaDetailPage() {
         <Code block>{JSON.stringify(detailQuery.data ?? null, null, 2)}</Code>
 
         <Title order={2}>Vista con datos locales</Title>
+
+        <MediaDocumentTitle title={demoMediaDetail.title} />
 
         <MediaDetailContent model={demoMediaDetail} />
 
