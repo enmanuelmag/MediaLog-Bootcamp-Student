@@ -1,0 +1,393 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Guía estudiantil de Sesión 10 para React Guide VI">
+    <title>Guía estudiantil · Sesión 10 · Taller de detalle público y Effects</title>
+    <style>
+      :root {
+        --paper: #fbfbfe;
+        --paper-2: #f3f5fb;
+        --ink: #17233f;
+        --ink-2: #45536f;
+        --muted: #66738d;
+        --rule: #d5dced;
+        --accent: #354f9f;
+        --accent-soft: #e7ecfb;
+        --code: #17233f;
+        --code-ink: #f5f7fc;
+        --success: #287d72;
+        --display: Sora, Aptos Display, "Segoe UI", sans-serif;
+        --body: "IBM Plex Sans", Aptos, "Segoe UI", sans-serif;
+        --mono: "JetBrains Mono", Consolas, monospace;
+      }
+
+      * { box-sizing: border-box; }
+      body { margin: 0; color: var(--ink); background: var(--paper-2); font-family: var(--body); font-size: 18px; line-height: 1.6; }
+      .page { width: min(100% - 32px, 960px); margin: 32px auto; overflow: hidden; border: 1px solid var(--rule); border-radius: 12px; background: var(--paper); box-shadow: 0 16px 48px rgb(24 36 63 / 10%); }
+      header { padding: 56px 64px 48px; color: var(--paper); background: linear-gradient(135deg, var(--accent), #263b7c); }
+      .label { margin: 0 0 12px; color: #dbe4ff; font-family: var(--mono); font-size: 13px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; }
+      header h1 { max-width: 18ch; margin: 0; font-family: var(--display); font-size: clamp(34px, 6vw, 58px); letter-spacing: -.045em; line-height: 1.04; }
+      header .rule { width: 80px; height: 4px; margin-top: 28px; background: #8ee0cf; }
+      main { padding: 56px 64px 72px; }
+      main > h1 { display: none; }
+      h2, h3 { font-family: var(--display); letter-spacing: -.03em; line-height: 1.15; }
+      h2 { margin: 56px 0 18px; padding-top: 18px; border-top: 2px solid var(--rule); font-size: 30px; }
+      h2:first-child { margin-top: 0; }
+      h3 { margin: 32px 0 12px; color: var(--accent); font-size: 22px; }
+      p { max-width: 72ch; margin: 0 0 18px; }
+      ul, ol { max-width: 72ch; margin: 0 0 22px; padding-left: 1.4em; }
+      li { margin: 8px 0; padding-left: .25em; }
+      li::marker { color: var(--accent); font-weight: 700; }
+      a { color: var(--accent); font-weight: 600; text-decoration-thickness: 2px; text-underline-offset: 3px; }
+      strong { color: var(--ink); }
+      code { padding: .14em .36em; border-radius: 4px; background: var(--accent-soft); color: #263b7c; font-family: var(--mono); font-size: .88em; }
+      pre { margin: 24px 0; padding: 24px; overflow-x: auto; border-radius: 8px; background: var(--code); color: var(--code-ink); box-shadow: inset 4px 0 var(--success); }
+      pre code { padding: 0; background: transparent; color: inherit; font-size: .82em; line-height: 1.55; }
+      blockquote { max-width: 72ch; margin: 24px 0; padding: 16px 20px; border-left: 4px solid var(--success); background: #ecf8f5; color: var(--ink-2); }
+      .table-wrap { max-width: 100%; margin: 24px 0; overflow-x: auto; border: 1px solid var(--rule); border-radius: 8px; }
+      table { width: 100%; border-collapse: collapse; font-size: .9em; }
+      th, td { padding: 12px 14px; border-bottom: 1px solid var(--rule); text-align: left; vertical-align: top; }
+      th { background: var(--accent-soft); color: var(--accent); font-family: var(--display); }
+      tbody tr:last-child td { border-bottom: 0; }
+      footer { display: flex; gap: 12px; align-items: center; padding: 20px 64px; border-top: 1px solid var(--rule); color: var(--muted); font-size: 14px; }
+      footer::before { width: 9px; height: 9px; border-radius: 50%; background: var(--success); content: ""; }
+      @media (max-width: 700px) { .page { width: 100%; margin: 0; border: 0; border-radius: 0; } header, main { padding: 36px 24px; } footer { padding: 18px 24px; } body { font-size: 17px; } }
+      @media print { body { background: white; } .page { width: 100%; margin: 0; border: 0; box-shadow: none; } a { color: inherit; } }
+    </style>
+  </head>
+  <body>
+    <article class="page">
+      <header>
+        <p class="label">React Guide VI · Guía estudiantil</p>
+        <h1>Guía estudiantil · Sesión 10 · Taller de detalle público y Effects</h1>
+        <div class="rule"></div>
+      </header>
+      <main><h1>Guía estudiantil · Sesión 10 · Taller de detalle público y Effects</h1>
+<h2>Objetivo</h2>
+<p>Conectarás la identidad de una URL con una query de detalle, transformarás su DTO en un modelo visual y sincronizarás el título de la pestaña mediante un Effect con cleanup.</p>
+<ul><li><strong>Duración:</strong> 180 minutos</li><li><strong>Rúbrica:</strong> <strong>workshop-rubric.md</strong></li></ul>
+<h2>Ruta de trabajo</h2>
+<p>Primero sigue la presentación completa (18 minutos). Después empieza el coding guiado (57 minutos), descanso (30), taller (60) y revisión (15): 180 minutos. No hay cambios de código antes de terminar las diapositivas.</p>
+<p>En <code>MediaLog-Bootcamp</code>, <code>session-10-start</code> coincide con <code>session-09-end</code>. El respaldo previo al taller es <code>session-10-workshop-start</code>: tiene piezas de demostración, no la integración evaluada. <code>session-10-end</code> es la referencia resuelta que el docente distribuirá al cerrar. <code>main</code> conserva el inicio del curso.</p>
+<p>Con el trabajo guardado, en tu copia ejecuta:</p>
+<pre><code class="language-bash">git switch session-10-start
+pnpm install --frozen-lockfile
+pnpm dev</code></pre>
+<p>Si falta <code>.env.local</code>, copia <code>.env.example</code>. Debe usar <code>VITE_API_URL=https://bootcamp-medialog.cardor.dev</code>. No sobrescribas una configuración existente sin revisarla.</p>
+<h2>Punto de partida</h2>
+<p>Tu seed conserva el checkpoint de la sesión 09:</p>
+<ul><li><code>/search</code> presenta resultados remotos.</li><li>Cada resultado enlaza a <code>/media/:mediaType/:externalId</code>.</li><li><code>MediaDetailPage</code> obtiene params y los valida con <code>toMediaDetailInput()</code>.</li><li>El adapter devuelve <code>GetMediaDetailInput | null</code>.</li><li>La página muestra la identidad de forma provisional.</li><li><code>getMediaDetail()</code> y los DTO ya existen.</li><li>TanStack Query, Devtools y <code>mediaKeys</code> ya están configurados.</li><li><code>StrictMode</code> permanece activo.</li></ul>
+<p>Comprueba antes de continuar:</p>
+<ol><li>Puedes abrir una tarjeta y ver su URL de detalle.</li><li>Recargar conserva la misma URL.</li><li><code>movie</code> y <code>series</code> producen un input válido.</li><li>Un tipo desconocido produce el estado provisional inválido.</li><li>Atrás regresa a búsqueda.</li></ol>
+<p>Registra cualquier diferencia antes de añadir la query.</p>
+<h2>Una analogía para orientarte</h2>
+<p>Piensa en una biblioteca: la URL identifica la ficha, Query administra el pedido y las respuestas guardadas, y el adapter prepara los datos para quien lee. El título de la pestaña es el letrero de una sala: al entrar lo cambiamos; al salir devolvemos el anterior. Ese último gesto es el cleanup. El adapter no comprueba un JSON desconocido por sí solo ni inventa información ausente.</p>
+<h2>Mapa de responsabilidades</h2>
+<pre><code class="language-text">URL y params       → React Router
+request y caché    → TanStack Query
+DTO hacia modelo   → adapter puro
+contenido          → componente presentacional
+document.title     → Effect con cleanup</code></pre>
+<p>No uses <code>useEffect</code> para fetching, copiar params, calcular el modelo o responder a un click.</p>
+<h2>Después de la presentación · Coding guiado · 57 minutos</h2>
+<h3>Paso 1 · Añadir la key de detalle</h3>
+<p>Extiende el objeto <code>mediaKeys</code> existente:</p>
+<pre><code class="language-ts">details: () =&gt; [...mediaKeys.all, &quot;detail&quot;] as const,
+detail: (input: GetMediaDetailInput | null) =&gt;
+  [...mediaKeys.details(), input] as const,</code></pre>
+<p>La respuesta cambia con dos valores:</p>
+<ul><li><code>mediaType</code>;</li><li><code>externalId</code>.</li></ul>
+<p>Ambos deben formar parte del input incluido en la key.</p>
+<p>Checkpoint: dos identidades diferentes aparecen como entradas diferentes en React Query Devtools.</p>
+<h3>Paso 2 · Crear una query dependiente</h3>
+<p>Añade <code>useMediaDetail</code> al archivo existente <code>src/hooks/features/use-media.ts</code>.</p>
+<p>Conserva <code>useMediaSearch</code> y combina los imports existentes. La página usará <code>import { useMediaDetail } from &quot;../hooks/features/use-media&quot;</code>; las keys continúan en <code>src/hooks/media-keys.ts</code>.</p>
+<p>Entrada del hook:</p>
+<pre><code class="language-ts">GetMediaDetailInput | null</code></pre>
+<p>Usa el mismo <code>input</code> nullable que entrega la URL y controla la ejecución con:</p>
+<pre><code class="language-ts">enabled: input !== null</code></pre>
+<p>La forma esperada es:</p>
+<pre><code class="language-ts">export function useMediaDetail(input: GetMediaDetailInput | null) {
+  return useQuery({
+    queryKey: mediaKeys.detail(input),
+    queryFn: () =&gt; {
+      if (input === null) {
+        throw new Error(&quot;Falta la identidad del medio&quot;)
+      }
+
+      return getMediaDetail(input)
+    },
+    enabled: input !== null,
+  })
+}</code></pre>
+<p><code>enabled</code> evita la petición cuando <code>input</code> es <code>null</code>. El <code>if</code> permite que TypeScript confirme que el fetcher recibe una identidad válida; esa rama no debe ejecutarse mientras la query esté deshabilitada.</p>
+<p>Usa por ahora una identidad fija válida para observar la consulta. La integración con params ocurre en el taller.</p>
+<p>Recuerda:</p>
+<div class="table-wrap"><table><thead><tr><th>Situación</th><th>Interpretación</th></tr></thead><tbody><tr><td><code>status: pending</code>, <code>fetchStatus: idle</code></td><td>todavía no hay datos ni request activa</td></tr><tr><td><code>isLoading: true</code></td><td>primera carga activa</td></tr></tbody></table></div>
+<p>Checkpoint: <code>null</code> no dispara <code>getMediaDetail</code>; un input válido sí puede hacerlo.</p>
+<p>La query también expone <code>refetch()</code> para repetir manualmente la request de la identidad actual. No lo uses como mecanismo normal de carga: la actividad extra lo reservará para un botón de reintento después de un error o una respuesta sin catálogo.</p>
+<h3>Paso 3 · Definir el modelo visual</h3>
+<p>Crea <code>src/types/media-detail-model.ts</code>:</p>
+<pre><code class="language-ts">import type { MediaType } from &quot;./media-item&quot;
+
+export type MediaDetailModel = Readonly&lt;{
+  mediaType: MediaType
+  title: string
+  description: string | null
+  posterUrl: string | null
+  releaseLabel: string
+  genres: string[]
+  durationMinutes: number | null
+  episodesCount: number | null
+  seasonsCount: number | null
+  reviewScore: number | null
+}&gt;</code></pre>
+<p>Este contrato describe la interfaz, no la respuesta HTTP. Por eso usa <code>posterUrl</code> aunque el DTO use <code>coverUrl</code>.</p>
+<h3>Paso 4 · Escribir el adapter</h3>
+<p>Crea <code>src/adapters/media-catalog-detail-to-model.ts</code> y transforma <code>MediaCatalogDetailDto</code> en <code>MediaDetailModel</code>.</p>
+<p>Define primero esta matriz:</p>
+<div class="table-wrap"><table><thead><tr><th>Caso</th><th>Resultado que debes preservar</th></tr></thead><tbody><tr><td>Película</td><td>duración y nulls de serie</td></tr><tr><td>Serie</td><td>temporadas y episodios</td></tr><tr><td>Año nulo</td><td><code>Fecha desconocida</code></td></tr><tr><td>Portada</td><td><code>coverUrl</code> pasa a <code>posterUrl</code></td></tr><tr><td>Opcionales</td><td>arrays y nulls sin datos inventados</td></tr></tbody></table></div>
+<p>Reglas:</p>
+<ul><li>no uses casts;</li><li>no conviertas el id numérico del catálogo en identidad de ruta;</li><li>no inventes géneros, score, poster o descripción;</li><li>no mutar arrays;</li><li>calcula el modelo durante el render, no lo guardes en estado.</li></ul>
+<p>Checkpoint: puedes explicar qué campo renombras, cuál calculas y cuáles conservas.</p>
+<h3>Qué protege esta frontera</h3>
+<p>El DTO describe la respuesta de la API. El modelo describe lo que necesita la UI. El adapter concentra la traducción entre ambas formas; así el componente no tiene que conocer nombres de transporte ni repetir decisiones de formato. Esto aplica encapsulamiento: una frontera reúne los detalles de una transformación y sus consumidores usan un contrato definido.</p>
+<div class="table-wrap"><table><thead><tr><th>Antes: campo del DTO <code>catalog</code></th><th>Después: campo del modelo</th><th>Uso visual</th></tr></thead><tbody><tr><td><code>coverUrl</code> con una URL o <code>null</code></td><td><code>posterUrl</code> con el mismo valor</td><td>Portada o fallback.</td></tr><tr><td><code>releaseYear: 2021</code></td><td><code>releaseLabel: &quot;2021&quot;</code></td><td>Texto de fecha.</td></tr><tr><td><code>releaseYear: null</code></td><td><code>releaseLabel: &quot;Fecha desconocida&quot;</code></td><td>Texto sin inventar una fecha.</td></tr><tr><td><code>title</code></td><td><code>title</code>, sin transformación</td><td>Título visible.</td></tr></tbody></table></div>
+<p>No todos los campos cambian: el adapter conserva lo que ya sirve y transforma únicamente las diferencias. Devuelve un objeto nuevo sin modificar el DTO almacenado en Query. No realiza un request ni copia la salida a estado.</p>
+<p>Ejemplo hipotético: si la API renombra <code>coverUrl</code> a <code>poster</code>, habrá que actualizar el DTO —y el schema de esa frontera, si existe— y leer <code>catalog.poster</code> dentro del adapter. El modelo puede conservar <code>posterUrl</code>, por lo que el componente no necesita cambiar. Los tests del adapter deben reflejar el nuevo contrato. Si la API deja de entregar una portada o cambia su significado, la UI también puede necesitar una decisión; el adapter no fabrica información ausente.</p>
+<h3>Paso 5 · Construir contenido aislado</h3>
+<p>Crea temporalmente un <code>demoMediaDetail</code> a partir de un catálogo tipado. Reemplaza <code>src/components/media-detail-content.tsx</code>, que existe desde 06 con un contrato antiguo y ya no tiene consumidor en 09, por la versión que recibe <code>model: MediaDetailModel</code>. Úsalos para implementar:</p>
+<pre><code class="language-tsx">&lt;MediaDetailContent model={demoMediaDetail} /&gt;</code></pre>
+<p><code>MediaDetailContent</code> debe presentar:</p>
+<ul><li>título y tipo;</li><li>descripción o fallback;</li><li>fecha;</li><li>géneros;</li><li>duración para película;</li><li>temporadas y episodios para serie;</li><li>poster y score solo cuando existan.</li></ul>
+<p>No debe importar Router, Query, API o DTO. Solo recibe <code>MediaDetailModel</code>.</p>
+<p>Checkpoint: puedes renderizar el componente con un objeto fijo, sin Router ni Query. Mantén <code>MantineProvider</code>, que suministra los estilos y el tema de sus componentes.</p>
+<h3>Paso 6 · Crear el estado visual compartido</h3>
+<p>Crea <code>src/components/page-state.tsx</code>:</p>
+<pre><code class="language-tsx">import { Alert, Button, Loader, Stack, Text } from &quot;@mantine/core&quot;
+
+export type PageStateVariant =
+  | &quot;loading&quot;
+  | &quot;error&quot;
+  | &quot;invalid&quot;
+  | &quot;unavailable&quot;
+
+type PageStateProps = Readonly&lt;{
+  variant: PageStateVariant
+  title?: string
+  description?: string
+  onRetry?: () =&gt; void
+}&gt;
+
+const PAGE_STATE_COPY: Record&lt;
+  PageStateVariant,
+  Readonly&lt;{ title: string; description: string; color: string }&gt;
+&gt; = {
+  loading: {
+    title: &quot;Cargando contenido&quot;,
+    description: &quot;Espera mientras recuperamos la información.&quot;,
+    color: &quot;blue&quot;,
+  },
+  error: {
+    title: &quot;No pudimos cargar el contenido&quot;,
+    description: &quot;Intenta nuevamente.&quot;,
+    color: &quot;red&quot;,
+  },
+  invalid: {
+    title: &quot;Dirección no válida&quot;,
+    description: &quot;Revisa el enlace o vuelve a la página anterior.&quot;,
+    color: &quot;yellow&quot;,
+  },
+  unavailable: {
+    title: &quot;Contenido no disponible&quot;,
+    description: &quot;No encontramos información para mostrar.&quot;,
+    color: &quot;gray&quot;,
+  },
+}
+
+export function PageState(props: PageStateProps) {
+  const { variant, title, description, onRetry } = props
+  const copy = PAGE_STATE_COPY[variant]
+  const resolvedTitle = title ?? copy.title
+  const resolvedDescription = description ?? copy.description
+  const canRetry =
+    (variant === &quot;error&quot; || variant === &quot;unavailable&quot;) &amp;&amp;
+    onRetry !== undefined
+
+  if (variant === &quot;loading&quot;) {
+    return (
+      &lt;Stack align=&quot;center&quot; gap=&quot;sm&quot; py=&quot;xl&quot; role=&quot;status&quot;&gt;
+        &lt;Loader aria-label={resolvedTitle} color={copy.color} /&gt;
+        &lt;Text fw={600}&gt;{resolvedTitle}&lt;/Text&gt;
+        &lt;Text c=&quot;dimmed&quot; ta=&quot;center&quot;&gt;
+          {resolvedDescription}
+        &lt;/Text&gt;
+      &lt;/Stack&gt;
+    )
+  }
+
+  return (
+    &lt;Alert color={copy.color} title={resolvedTitle}&gt;
+      &lt;Stack gap=&quot;sm&quot;&gt;
+        &lt;Text&gt;{resolvedDescription}&lt;/Text&gt;
+        {canRetry ? (
+          &lt;Button type=&quot;button&quot; onClick={onRetry} variant=&quot;light&quot;&gt;
+            Reintentar
+          &lt;/Button&gt;
+        ) : null}
+      &lt;/Stack&gt;
+    &lt;/Alert&gt;
+  )
+}</code></pre>
+<p><code>variant</code> elige el copy y la presentación predeterminados. <code>title</code> y <code>description</code> permiten adaptar el mensaje sin crear otro componente. <code>onRetry</code> solo muestra el botón en <code>error</code> o <code>unavailable</code>; la página conserva la query y entrega el callback.</p>
+<p>Renderiza temporalmente las cuatro variantes. Comprueba que <code>loading</code> e <code>invalid</code> no muestran el botón aunque reciban <code>onRetry</code>. Después retira esa demostración temporal.</p>
+<p>Checkpoint: el componente importa Mantine, pero no Router, TanStack Query, API ni tipos del dominio.</p>
+<h3>Paso 7 · Sincronizar el título</h3>
+<p>Crea <code>src/components/media-document-title.tsx</code>.</p>
+<p>Primero prueba temporalmente una versión sin cleanup. Abre el detalle y vuelve a búsqueda. Observa que el título queda residual.</p>
+<p>Después corrige:</p>
+<pre><code class="language-tsx">import { useEffect } from &quot;react&quot;
+
+type MediaDocumentTitleProps = Readonly&lt;{
+  title: string
+}&gt;
+
+export function MediaDocumentTitle(props: MediaDocumentTitleProps) {
+  const { title } = props
+
+  useEffect(() =&gt; {
+    const previousTitle = document.title
+    document.title = `${title} | Medialog`
+
+    return () =&gt; {
+      document.title = previousTitle
+    }
+  }, [title])
+
+  return null
+}</code></pre>
+<p>El setup recuerda y asigna. El cleanup restaura.</p>
+<p>Para observar Strict Mode, puedes añadir logs temporales, limpiar la consola y recargar. En desarrollo es válido observar:</p>
+<pre><code class="language-text">setup → cleanup → setup</code></pre>
+<p>No retires Strict Mode. Retira los logs antes de entregar.</p>
+<h3>Paso 8 · Usar un agente solo para las pruebas</h3>
+<p>Primero escribe tú el adapter y la matriz. Después puedes invocar <code>ahk-test</code>:</p>
+<pre><code class="language-text">Usa la skill ahk-test para crear y ejecutar pruebas Vitest puras de
+mediaCatalogDetailToModel con esta matriz:
+1. Una película conserva durationMinutes y mantiene episodesCount y
+   seasonsCount en null.
+2. Una serie conserva seasonsCount y episodesCount.
+3. releaseYear null produce &quot;Fecha desconocida&quot;.
+4. coverUrl se expone como posterUrl.
+5. Los arrays y valores null se conservan sin inventar fallbacks.
+
+Alcance único: src/adapters/__tests__/media-catalog-detail-to-model.test.ts.
+Producción, rutas, hooks, componentes, dependencias y configuración permanecen
+en solo lectura. Usa fixtures mínimos tipados, sin detalles internos ni
+snapshots. Ejecuta pnpm exec vitest run sobre ese archivo y entrega matriz,
+archivos, exit status y frontera de evidencia.</code></pre>
+<p>Tu responsabilidad no termina cuando el agente responde:</p>
+<ol><li>Lee el archivo completo.</li><li>Revisa el diff.</li><li>Confirma que ningún otro archivo cambió.</li><li>Ejecuta:</li></ol>
+<pre><code class="language-bash">pnpm exec vitest run src/adapters/__tests__/media-catalog-detail-to-model.test.ts</code></pre>
+<ol><li>Explica qué no prueba esa suite: Router, Query, DOM, Effect, Strict Mode y build.</li></ol>
+<h2>Descanso · 30 minutos</h2>
+<p>Después del descanso integrarás las piezas ya construidas. No necesitas aprender una API nueva.</p>
+<h2>Taller calificable · 60 minutos</h2>
+<p>Lee la <strong>rúbrica completa</strong> antes de editar.</p>
+<h3>Encargo</h3>
+<p>Reemplaza el detalle provisional por un flujo completo que use la identidad de la URL, distinga sus estados y restaure el título al salir.</p>
+<h3>Parte 1 · Conectar el input real</h3>
+<p>Retira el input fijo y conserva este orden:</p>
+<pre><code class="language-tsx">const params = useParams()
+const detailInput = toMediaDetailInput(params)
+const detailQuery = useMediaDetail(detailInput)
+
+if (detailInput === null) {
+  return &lt;PageState variant=&quot;invalid&quot; /&gt;
+}</code></pre>
+<p>El hook debe ejecutarse antes del retorno condicional. <code>enabled</code> evita la request inválida.</p>
+<p>Checkpoint:</p>
+<ul><li>no hay hook dentro de un condicional;</li><li><code>unknown/123</code> no solicita detalle;</li><li>película y serie generan keys diferentes;</li><li>no copias params a estado.</li></ul>
+<h3>Parte 2 · Componer los estados</h3>
+<p>Importa <code>PageState</code> desde <code>../components/page-state</code>. Después de URL inválida, representa:</p>
+<ol><li>primera carga activa;</li><li>error remoto;</li><li>respuesta exitosa con <code>catalog: null</code>;</li><li>respuesta exitosa con catálogo.</li></ol>
+<p>Usa <code>isLoading</code> para la primera carga. No uses <code>isPending</code> por sí solo: una query deshabilitada puede estar pending sin hacer fetching.</p>
+<pre><code class="language-tsx">if (detailInput === null) {
+  return &lt;PageState variant=&quot;invalid&quot; /&gt;
+}
+
+if (detailQuery.isLoading) {
+  return &lt;PageState variant=&quot;loading&quot; /&gt;
+}
+
+if (detailQuery.isError) {
+  return &lt;PageState variant=&quot;error&quot; /&gt;
+}
+
+if (detailQuery.data === undefined) {
+  return (
+    &lt;PageState
+      variant=&quot;unavailable&quot;
+      title=&quot;Esperando conexión&quot;
+      description=&quot;Aún no hay una respuesta. Revisa tu conexión.&quot;
+    /&gt;
+  )
+}
+
+if (detailQuery.data.catalog === null) {
+  return &lt;PageState variant=&quot;unavailable&quot; /&gt;
+}</code></pre>
+<p>La guarda <code>data === undefined</code> distingue «todavía sin respuesta» de «respuesta con catálogo nulo». <code>isLoading</code> false no garantiza por sí solo datos: una primera petición puede estar pausada por falta de conexión. No lo soluciones con <code>!</code> o un cast. Esta distinción se explica antes del descanso.</p>
+<p>Cuando existe catálogo:</p>
+<pre><code class="language-ts">const model = mediaCatalogDetailToModel(detailQuery.data.catalog)</code></pre>
+<p>No uses <code>useState</code> ni <code>useEffect</code> para conservar ese modelo.</p>
+<p>Checkpoint: puedes producir por separado URL inválida, error remoto y catálogo ausente.</p>
+<h3>Parte 3 · Montar contenido y título</h3>
+<p>En la rama exitosa:</p>
+<pre><code class="language-tsx">return (
+  &lt;&gt;
+    &lt;MediaDocumentTitle title={model.title} /&gt;
+    &lt;MediaDetailContent model={model} /&gt;
+  &lt;/&gt;
+)</code></pre>
+<p>Retira:</p>
+<ul><li>el archivo <code>src/data/demo-media-detail.ts</code> y su import de <code>demoMediaDetail</code>;</li><li>input fijo, botones de demostración, contador de reintentos y estados simultáneos;</li><li>render provisional de params;</li><li>logs;</li><li>casts o non-null assertions añadidos para avanzar.</li></ul>
+<p><code>MediaDocumentTitle</code> no se monta en carga, error, URL inválida o catálogo ausente.</p>
+<h3>Parte 4 · Matriz manual</h3>
+<p>Registra resultado esperado y observado:</p>
+<div class="table-wrap"><table><thead><tr><th>Caso</th><th>Resultado observado</th></tr></thead><tbody><tr><td>Película desde búsqueda</td><td>______________________________</td></tr><tr><td>Serie desde búsqueda</td><td>______________________________</td></tr><tr><td>Recarga directa</td><td>______________________________</td></tr><tr><td>Pestaña nueva</td><td>______________________________</td></tr><tr><td>Atrás y Adelante</td><td>______________________________</td></tr><tr><td>Tipo inválido sin request</td><td>______________________________</td></tr><tr><td>Catálogo nulo, distinto de error</td><td>______________________________</td></tr></tbody></table></div>
+<p>Verifica también el título durante entrada y salida.</p>
+<h3>Parte 5 · Prueba, build y limpieza</h3>
+<p>Ejecuta:</p>
+<pre><code class="language-bash">pnpm exec vitest run src/adapters/__tests__/media-catalog-detail-to-model.test.ts
+pnpm lint
+pnpm build</code></pre>
+<p>Revisa referencias temporales:</p>
+<pre><code class="language-bash">rg &quot;demoMediaDetail|console\.log|as GetMediaDetailInput|useEffect&quot; src</code></pre>
+<p><code>useEffect</code> debe aparecer solo donde se sincroniza <code>document.title</code>. Lee cada resultado antes de cambiar código.</p>
+<h2>Casos de aceptación</h2>
+<ol><li>Una URL inválida no inicia una request.</li><li>La query key distingue tipo e id.</li><li>La página diferencia carga, error, catálogo ausente y éxito.</li><li>Película y serie presentan los campos correspondientes.</li><li>El contenido recibe un modelo visual, no un DTO.</li><li>Entrar actualiza el título y salir restaura el anterior.</li><li>Strict Mode sigue activo y no quedan logs temporales.</li><li>Recarga, pestaña nueva, Atrás y Adelante funcionan en la comprobación local.</li><li>La prueba dirigida y el build terminan con código 0.</li><li>Puedes explicar qué demuestra y qué no demuestra cada evidencia.</li></ol>
+<h2>Actividad opcional</h2>
+<p>Solo después de completar la base, conecta el botón <strong>Reintentar</strong> en los estados <code>error</code> y <code>unavailable</code>:</p>
+<pre><code class="language-tsx">&lt;PageState
+  variant=&quot;error&quot;
+  onRetry={() =&gt; void detailQuery.refetch()}
+/&gt;
+
+&lt;PageState
+  variant=&quot;unavailable&quot;
+  onRetry={() =&gt; void detailQuery.refetch()}
+/&gt;</code></pre>
+<p>Ambos callbacks repiten la query actual. No guardes otra identidad, no cambies la key y no uses ese botón como mecanismo normal de carga.</p>
+<h2>Evidencia requerida</h2>
+<p>Entrega:</p>
+<ul><li>código del checkpoint final;</li><li>salida completa de la prueba dirigida;</li><li>salida completa de <code>pnpm build</code>;</li><li>matriz manual completada;</li><li>diff del archivo creado por el agente, si lo usaste;</li><li>explicación breve de propietarios y límites de evidencia.</li></ul>
+<p>El test del adapter no demuestra Router o Effect. El build no demuestra conducta del navegador. La matriz local no demuestra despliegue.</p>
+<h2>Puente hacia la sesión 11</h2>
+<p>La siguiente sesión abrirá un modal global de creación desde búsqueda y detalle. No lo adelantes: hoy no añadas botón de creación, Zustand, formulario, Zod, autenticación o mutaciones.</p></main>
+      <footer>Material de trabajo en clase · Sesión 10</footer>
+    </article>
+  </body>
+</html>
