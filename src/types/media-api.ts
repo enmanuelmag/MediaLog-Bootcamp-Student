@@ -50,6 +50,15 @@ export const MEDIA_PRIORITY_VALUES = ['low', 'medium', 'high'] as const
 
 export type MediaPriority = (typeof MEDIA_PRIORITY_VALUES)[number]
 
+export type CreateCatalogMediaLogBody = {
+  source: 'catalog'
+  mediaType: MediaType
+  externalId: string
+  status: MediaStatus
+  priority: MediaPriority
+  notes: string | null
+}
+
 export type UserMediaDataDto = {
   id: string
   title: string
