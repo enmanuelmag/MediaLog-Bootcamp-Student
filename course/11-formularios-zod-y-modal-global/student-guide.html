@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Guía estudiantil de Sesión 11 para React Guide VI">
+    <title>Guía estudiantil · Sesión 11 · Formularios, Zod y modal global</title>
+    <style>
+      :root {
+        --paper: #fbfbfe;
+        --paper-2: #f3f5fb;
+        --ink: #17233f;
+        --ink-2: #45536f;
+        --muted: #66738d;
+        --rule: #d5dced;
+        --accent: #354f9f;
+        --accent-soft: #e7ecfb;
+        --code: #17233f;
+        --code-ink: #f5f7fc;
+        --success: #287d72;
+        --display: Sora, Aptos Display, "Segoe UI", sans-serif;
+        --body: "IBM Plex Sans", Aptos, "Segoe UI", sans-serif;
+        --mono: "JetBrains Mono", Consolas, monospace;
+      }
+
+      * { box-sizing: border-box; }
+      body { margin: 0; color: var(--ink); background: var(--paper-2); font-family: var(--body); font-size: 18px; line-height: 1.6; }
+      .page { width: min(100% - 32px, 960px); margin: 32px auto; overflow: hidden; border: 1px solid var(--rule); border-radius: 12px; background: var(--paper); box-shadow: 0 16px 48px rgb(24 36 63 / 10%); }
+      header { padding: 56px 64px 48px; color: var(--paper); background: linear-gradient(135deg, var(--accent), #263b7c); }
+      .label { margin: 0 0 12px; color: #dbe4ff; font-family: var(--mono); font-size: 13px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; }
+      header h1 { max-width: 18ch; margin: 0; font-family: var(--display); font-size: clamp(34px, 6vw, 58px); letter-spacing: -.045em; line-height: 1.04; }
+      header .rule { width: 80px; height: 4px; margin-top: 28px; background: #8ee0cf; }
+      main { padding: 56px 64px 72px; }
+      main > h1 { display: none; }
+      h2, h3 { font-family: var(--display); letter-spacing: -.03em; line-height: 1.15; }
+      h2 { margin: 56px 0 18px; padding-top: 18px; border-top: 2px solid var(--rule); font-size: 30px; }
+      h2:first-child { margin-top: 0; }
+      h3 { margin: 32px 0 12px; color: var(--accent); font-size: 22px; }
+      p { max-width: 72ch; margin: 0 0 18px; }
+      ul, ol { max-width: 72ch; margin: 0 0 22px; padding-left: 1.4em; }
+      li { margin: 8px 0; padding-left: .25em; }
+      li::marker { color: var(--accent); font-weight: 700; }
+      a { color: var(--accent); font-weight: 600; text-decoration-thickness: 2px; text-underline-offset: 3px; }
+      strong { color: var(--ink); }
+      code { padding: .14em .36em; border-radius: 4px; background: var(--accent-soft); color: #263b7c; font-family: var(--mono); font-size: .88em; }
+      pre { margin: 24px 0; padding: 24px; overflow-x: auto; border-radius: 8px; background: var(--code); color: var(--code-ink); box-shadow: inset 4px 0 var(--success); }
+      pre code { padding: 0; background: transparent; color: inherit; font-size: .82em; line-height: 1.55; }
+      blockquote { max-width: 72ch; margin: 24px 0; padding: 16px 20px; border-left: 4px solid var(--success); background: #ecf8f5; color: var(--ink-2); }
+      .table-wrap { max-width: 100%; margin: 24px 0; overflow-x: auto; border: 1px solid var(--rule); border-radius: 8px; }
+      table { width: 100%; border-collapse: collapse; font-size: .9em; }
+      th, td { padding: 12px 14px; border-bottom: 1px solid var(--rule); text-align: left; vertical-align: top; }
+      th { background: var(--accent-soft); color: var(--accent); font-family: var(--display); }
+      tbody tr:last-child td { border-bottom: 0; }
+      footer { display: flex; gap: 12px; align-items: center; padding: 20px 64px; border-top: 1px solid var(--rule); color: var(--muted); font-size: 14px; }
+      footer::before { width: 9px; height: 9px; border-radius: 50%; background: var(--success); content: ""; }
+      @media (max-width: 700px) { .page { width: 100%; margin: 0; border: 0; border-radius: 0; } header, main { padding: 36px 24px; } footer { padding: 18px 24px; } body { font-size: 17px; } }
+      @media print { body { background: white; } .page { width: 100%; margin: 0; border: 0; box-shadow: none; } a { color: inherit; } }
+    </style>
+  </head>
+  <body>
+    <article class="page">
+      <header>
+        <p class="label">React Guide VI · Guía estudiantil</p>
+        <h1>Guía estudiantil · Sesión 11 · Formularios, Zod y modal global</h1>
+        <div class="rule"></div>
+      </header>
+      <main><h1>Guía estudiantil · Sesión 11 · Formularios, Zod y modal global</h1>
+<h2>Qué vas a construir</h2>
+<p><strong>Virtual · 90 minutos.</strong> Abrirás el mismo formulario desde búsqueda y detalle. Completarás estado, prioridad y notas; comprobarás los datos y prepararás un objeto local. Esta sesión todavía no guarda registros en el servidor.</p>
+<p>Lectura previa: <strong>store y validación local</strong>. Control posterior: <strong>preguntas de lectura</strong>.</p>
+<p>Primero veremos la presentación completa. Después trabajaremos en el editor, practicaremos y cerraremos sobre el resultado. No necesitas copiar código mientras se muestran las diapositivas.</p>
+<h2>Punto de partida</h2>
+<p><code>session-11-start</code> coincide con <code>session-10-end</code>. Ya puedes buscar películas o series, abrir un detalle por URL y volver a la búsqueda. El título de la pestaña cambia con el medio y se restaura al salir. <code>PublicLayout</code> contiene el encabezado y el lugar donde Router muestra la página activa.</p>
+<p>Comprueba ese recorrido antes de editar. Guarda tu trabajo antes de cambiar de rama. Las ramas son respaldos que el docente compartirá según avance la clase; tu trabajo puede continuar en tu propia rama. <code>main</code> del repositorio docente conserva el inicio del curso.</p>
+<h2>Una ficha y un formulario</h2>
+<p>Imagina un mostrador al que se puede llegar desde dos puertas: búsqueda y detalle. Sobre el mostrador dejamos una ficha con el tipo y el ID del medio elegido. Quien atiende usa esa ficha para abrir el formulario correcto.</p>
+<p>La ficha compartida es el <strong>store</strong> de Zustand. Los campos que completas pertenecen a <strong>Mantine Form</strong>. <strong>Zod</strong> comprueba las reglas, como un revisor que señala un campo inválido. El <strong>adapter</strong> reúne los datos del medio y tus respuestas en el formato acordado. Preparar ese objeto es parecido a completar una solicitud: todavía falta enviarla y recibir confirmación.</p>
+<div class="table-wrap"><table><thead><tr><th>Dato o trabajo</th><th>Responsable</th></tr></thead><tbody><tr><td>Tipo e ID del medio elegido; abrir y cerrar</td><td>Zustand</td></tr><tr><td>Valores actuales y errores de los campos</td><td>Mantine Form</td></tr><tr><td>Reglas que aceptan o rechazan esos valores</td><td>Zod</td></tr><tr><td>Objeto preparado para una futura petición</td><td>Adapter y vista previa local</td></tr><tr><td>Respuestas de búsqueda y detalle</td><td>TanStack Query, como en sesiones anteriores</td></tr></tbody></table></div>
+<h2>Ruta de la clase</h2>
+<div class="table-wrap"><table><thead><tr><th>Bloque</th><th>Minutos</th><th>Comprobación</th></tr></thead><tbody><tr><td>Presentación continua</td><td>25</td><td>Reconocer qué hace cada herramienta.</td></tr><tr><td>Store y apertura temporal</td><td>10</td><td>Abrir y cerrar con datos de ejemplo.</td></tr><tr><td>Búsqueda y detalle</td><td>8</td><td>Abrir desde ambas pantallas.</td></tr><tr><td>Reglas de validación</td><td>8</td><td>Comparar datos válidos e inválidos.</td></tr><tr><td>Formulario</td><td>14</td><td>Completar campos y ver errores.</td></tr><tr><td>Body local</td><td>9</td><td>Preparar los datos y revisar notas.</td></tr><tr><td>Tests con agente</td><td>7</td><td>Leer y ejecutar cinco casos.</td></tr><tr><td>Práctica</td><td>6</td><td>Comprobar otro medio.</td></tr><tr><td>Cierre</td><td>3</td><td>Explicar el resultado y sus límites.</td></tr></tbody></table></div>
+<p>Total: 90 minutos. Los tiempos se ajustarán a partir de la experiencia real del grupo. El docente entrega soporte mecánico dentro de cada bloque de coding; tú sigues la construcción y explicas las decisiones.</p>
+<h2>1. Instalar y abrir un modal compartido</h2>
+<p>Después de la presentación, trabaja desde el cierre anterior. En una copia preparada desde la rama de entrada:</p>
+<pre><code class="language-bash">pnpm install --frozen-lockfile
+pnpm add --save-exact zustand@5.0.15 @mantine/form@9.4.1 zod@4.4.3
+pnpm dev</code></pre>
+<p>Mantine Core, Hooks y Form usan 9.4.1. No actualices otras dependencias. El lockfile se genera con pnpm.</p>
+<p>Construye con el docente:</p>
+<ul><li><code>src/stores/create-media-log-modal-store.ts</code>: selección inicial <code>null</code>, acción <code>openCreate</code> y acción <code>closeCreate</code>.</li><li><code>src/components/create-media-log-modal.tsx</code>: lee selección y cierre mediante selectores separados; calcula si se abre desde <code>selection !== null</code>.</li><li><code>src/layouts/public-layout.tsx</code>: conserva <code>Outlet</code> y monta el modal una sola vez. Durante este paso incluye un botón temporal.</li></ul>
+<p><strong>Comprueba:</strong> el botón abre con tipo e ID visibles; cerrar permite volver a abrir. No guardes <code>opened</code> además de la selección: podrían contradecirse. No añadas respuestas de la API, notas o sesión al store.</p>
+<p>Respaldo: <code>session-11-step-01-modal-store</code>.</p>
+<h2>2. Abrir desde búsqueda y detalle</h2>
+<p>Sigue la integración en este orden:</p>
+<ol><li><code>MediaSearchResults</code> recibe <code>onCreate</code> como prop y la llama desde el botón del resultado con tipo e ID. Conserva el enlace «Ver detalle».</li><li><code>SearchPage</code> lee <code>openCreate</code> y lo entrega al componente de resultados.</li><li><code>MediaDetailPage</code> lee la misma acción antes de cualquier retorno y muestra el botón solo cuando el detalle es válido y está disponible.</li><li>Retira el botón temporal de <code>PublicLayout</code>; el modal permanece.</li></ol>
+<p><strong>Comprueba:</strong> abre desde una película, cierra y abre desde una serie. Visita el detalle y abre allí. Cada vez debe aparecer el tipo y el ID correspondientes. El resultado presenta la acción mediante una prop; no necesita importar Zustand.</p>
+<p>Respaldo: <code>session-11-step-02-modal-entrypoints</code>.</p>
+<h2>3. Acordar y ejecutar las reglas</h2>
+<p>En <code>src/types/media-api.ts</code> se añade <code>CreateCatalogMediaLogBody</code>: origen de catálogo, tipo, ID, estado, prioridad y notas. No transporta título, usuario o token.</p>
+<p>En <code>src/schemas/media-log.ts</code>, el schema usa las listas de estados y prioridades que ya existen. Las notas deben ser texto de hasta 256 caracteres. <code>MediaLogFormValues</code> se obtiene con <code>z.infer</code> para no mantener una segunda definición de los mismos campos.</p>
+<p><strong>Distingue:</strong> inferir un tipo ayuda a TypeScript; ejecutar <code>safeParse</code> examina un valor real. La demostración temporal <code>media-log-schema-probe.tsx</code> tiene un botón dentro del modal y compara datos válidos, estado no permitido y notas de 257 caracteres. Predice los tres resultados antes de mirar la consola.</p>
+<p><strong>Comprueba:</strong> el caso válido se acepta y los otros muestran rechazo. El límite de notas es una regla de esta interfaz, no una afirmación sobre el servidor.</p>
+<p>Respaldo: <code>session-11-step-03-form-schema</code>.</p>
+<h2>4. Conectar los campos</h2>
+<p>Construye <code>src/components/create-media-log-form.tsx</code>. Recibe <code>identity</code> —tipo e ID del medio elegido— y <code>onCancel</code>. Usa Mantine Form en modo <code>uncontrolled</code>, con estado Por ver (<code>pending</code>), prioridad Media (<code>medium</code>) y notas vacías.</p>
+<p>Revisa en el código que construyes:</p>
+<ul><li><code>schemaResolver</code> se importa desde <code>@mantine/form</code> y conecta las reglas de Zod. <code>{ sync: true }</code> corresponde a estas reglas inmediatas.</li><li>Cada control recibe <code>form.key('campo')</code> y <code>form.getInputProps('campo')</code>.</li><li>Las etiquetas son españolas, pero los valores conservan el contrato: por ejemplo, Por ver corresponde a <code>pending</code>.</li><li><code>form.onSubmit</code> comprueba los campos antes de entregar valores válidos a la preparación.</li><li><code>onValuesChange</code> retira la vista previa anterior cuando editas.</li><li>Cancelar es un botón normal; comprobar/preparar es el botón de envío del formulario.</li></ul>
+<p>El modal monta el formulario solo con selección. Su <code>key</code> combina tipo e ID. Elimina la demostración temporal y su import; conserva el schema, que ahora usa Form.</p>
+<p><strong>Comprueba:</strong> completar y enviar muestra valores válidos. Escribir 257 caracteres muestra error al salir del campo o enviar. Con 256 puedes continuar. Editar retira la vista previa. No añadas <code>maxLength</code> para ocultar la comprobación que estamos aprendiendo.</p>
+<p>Respaldo: <code>session-11-step-04-form-fields</code>.</p>
+<h2>5. Preparar el body</h2>
+<p>Antes de escribir el adapter, acuerda qué hacer con notas vacías, solo espacios o texto. Crea <code>src/adapters/media-log-form-to-create-body.ts</code>: recibe datos del medio y valores válidos del formulario, devuelve un objeto nuevo y convierte notas vacías en <code>null</code> después de recortar espacios de los extremos.</p>
+<p>Conecta el adapter al submit de <code>CreateMediaLogForm</code>. Ahora el botón «Preparar body» muestra el objeto completo, no solamente los campos. Editar lo retira; cerrar y reabrir inicia un formulario nuevo. No uses un Effect para preparar o reiniciar.</p>
+<p><strong>Comprueba:</strong> mismo tipo e ID, estado y prioridad elegidos, <code>source: 'catalog'</code> y notas normalizadas. En Network no aparece <code>POST /api/v2/media/create</code>. La búsqueda sí utiliza POST: distingue la ruta de cada petición.</p>
+<p>Respaldo: <code>session-11-step-05-body-preview</code>.</p>
+<h2>6. Trabajo con agente</h2>
+<p>La persona define la matriz antes de delegar. Usa este prompt después de escribir el adapter:</p>
+<pre><code class="language-text">Partimos de session-11-step-05-body-preview. Lee el adapter
+src/adapters/media-log-form-to-create-body.ts, el schema media-log.ts,
+los tipos media-api.ts y un test existente de adapters.
+
+Usa la skill ahk-test para redactar y ejecutar cinco pruebas Vitest:
+1. Conserva mediaType, externalId, status y priority.
+2. Añade source: 'catalog'.
+3. Notas vacías producen null.
+4. Notas con solo espacios producen null.
+5. Recorta los extremos del texto y conserva el contenido interior.
+
+Solo puedes modificar src/adapters/__tests__/media-log-form-to-create-body.test.ts
+y fixtures necesarios dentro de src/adapters/__tests__/fixtures/.
+No cambies producción, schemas, tipos, componentes, store, rutas, dependencias,
+configuración u otros tests. No uses snapshots ni debilites expectativas.
+Si un caso contradice el código, detente y explica antes de proponer cambios.
+
+Ejecuta pnpm exec vitest run src/adapters/__tests__/media-log-form-to-create-body.test.ts.
+Entrega archivos, matriz, resultado y exit status, flujo probado, supuestos
+y límites. No afirmes haber comprobado el navegador.</code></pre>
+<p>Lee todo el diff. Explica entrada, resultado y expectativa de cada caso. Si el agente falla o tarda, usa la referencia que entregue el docente después de acordar el comportamiento; también debes leerla y ejecutarla.</p>
+<pre><code class="language-bash">pnpm exec vitest run src/adapters/__tests__/media-log-form-to-create-body.test.ts
+pnpm test
+pnpm lint
+pnpm build</code></pre>
+<p>Respaldo: <code>session-11-step-06-adapter-tests</code>. El test demuestra la transformación pura; no comprueba la interfaz, el backend ni persistencia.</p>
+<h2>7. Práctica y evidencia</h2>
+<p>Usa un medio diferente del ejemplo docente. Registra qué observaste en cada caso; marca pendiente lo que todavía no hayas comprobado.</p>
+<div class="table-wrap"><table><thead><tr><th>Caso</th><th>Resultado que debes observar</th></tr></thead><tbody><tr><td>Abrir desde búsqueda</td><td>Tipo e ID del resultado elegido.</td></tr><tr><td>Abrir desde detalle</td><td>Mismo formulario, datos de ese detalle.</td></tr><tr><td>Notas vacías o espacios</td><td>El body contiene <code>notes: null</code>.</td></tr><tr><td>Notas con texto</td><td>Se recortan extremos y se conserva el interior.</td></tr><tr><td>257 caracteres</td><td>Error y ausencia de una nueva preparación.</td></tr><tr><td>256 caracteres</td><td>Preparación permitida con el resto de datos válidos.</td></tr><tr><td>Editar tras preparar</td><td>Se retira la vista previa anterior.</td></tr><tr><td>Cerrar y reabrir</td><td>Campos iniciales y sin vista previa.</td></tr><tr><td>Network</td><td>Sin petición de creación; búsqueda puede hacer POST.</td></tr></tbody></table></div>
+<p>Entrega código, salida de las comprobaciones, diff del agente leído y registro del recorrido. Explica quién administra selección, campos, reglas y datos remotos. El cierre de referencia es <code>session-11-end</code>.</p>
+<h2>Palabras del código</h2>
+<ul><li><strong>Store:</strong> lugar compartido para un estado concreto; aquí solo la selección y sus acciones.</li><li><strong>Selector:</strong> función que elige un dato o una acción del store.</li><li><strong>Schema:</strong> reglas que se pueden ejecutar sobre datos reales.</li><li><strong>Resolver:</strong> conexión que convierte el resultado de Zod en errores de Form.</li><li><strong>Uncontrolled:</strong> modo en que el control mantiene su valor visible y Form registra el valor actual sin actualizar <code>form.values</code> en cada tecla.</li><li><strong>Body:</strong> objeto preparado para el contenido de una futura petición.</li><li><strong>Adapter:</strong> función que transforma una forma de datos en otra.</li><li><strong>identity:</strong> nombre del parámetro que contiene tipo e ID del medio elegido.</li></ul>
+<h2>Si no terminaste</h2>
+<p>Anota último bloque y paso comprobado, cambio guardado, primera acción pendiente y evidencia que falta. Un respaldo recupera código, pero todavía debes recorrer y explicar lo pendiente antes de continuar.</p>
+<p>No añadimos autenticación, rutas privadas, POST de creación, mutaciones, persistencia de Zustand ni un Effect de reset. La próxima sesión reutilizará lo aprendido en formularios de acceso.</p></main>
+      <footer>Material de trabajo en clase · Sesión 11</footer>
+    </article>
+  </body>
+</html>

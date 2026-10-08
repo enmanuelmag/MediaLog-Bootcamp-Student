@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Lectura previa de Sesión 11 para React Guide VI">
+    <title>Lectura previa · Sesión 11 · Store y validación local</title>
+    <style>
+      :root {
+        --paper: #fbfbfe;
+        --paper-2: #f3f5fb;
+        --ink: #17233f;
+        --ink-2: #45536f;
+        --muted: #66738d;
+        --rule: #d5dced;
+        --accent: #354f9f;
+        --accent-soft: #e7ecfb;
+        --code: #17233f;
+        --code-ink: #f5f7fc;
+        --success: #287d72;
+        --display: Sora, Aptos Display, "Segoe UI", sans-serif;
+        --body: "IBM Plex Sans", Aptos, "Segoe UI", sans-serif;
+        --mono: "JetBrains Mono", Consolas, monospace;
+      }
+
+      * { box-sizing: border-box; }
+      body { margin: 0; color: var(--ink); background: var(--paper-2); font-family: var(--body); font-size: 18px; line-height: 1.6; }
+      .page { width: min(100% - 32px, 960px); margin: 32px auto; overflow: hidden; border: 1px solid var(--rule); border-radius: 12px; background: var(--paper); box-shadow: 0 16px 48px rgb(24 36 63 / 10%); }
+      header { padding: 56px 64px 48px; color: var(--paper); background: linear-gradient(135deg, var(--accent), #263b7c); }
+      .label { margin: 0 0 12px; color: #dbe4ff; font-family: var(--mono); font-size: 13px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; }
+      header h1 { max-width: 18ch; margin: 0; font-family: var(--display); font-size: clamp(34px, 6vw, 58px); letter-spacing: -.045em; line-height: 1.04; }
+      header .rule { width: 80px; height: 4px; margin-top: 28px; background: #8ee0cf; }
+      main { padding: 56px 64px 72px; }
+      main > h1 { display: none; }
+      h2, h3 { font-family: var(--display); letter-spacing: -.03em; line-height: 1.15; }
+      h2 { margin: 56px 0 18px; padding-top: 18px; border-top: 2px solid var(--rule); font-size: 30px; }
+      h2:first-child { margin-top: 0; }
+      h3 { margin: 32px 0 12px; color: var(--accent); font-size: 22px; }
+      p { max-width: 72ch; margin: 0 0 18px; }
+      ul, ol { max-width: 72ch; margin: 0 0 22px; padding-left: 1.4em; }
+      li { margin: 8px 0; padding-left: .25em; }
+      li::marker { color: var(--accent); font-weight: 700; }
+      a { color: var(--accent); font-weight: 600; text-decoration-thickness: 2px; text-underline-offset: 3px; }
+      strong { color: var(--ink); }
+      code { padding: .14em .36em; border-radius: 4px; background: var(--accent-soft); color: #263b7c; font-family: var(--mono); font-size: .88em; }
+      pre { margin: 24px 0; padding: 24px; overflow-x: auto; border-radius: 8px; background: var(--code); color: var(--code-ink); box-shadow: inset 4px 0 var(--success); }
+      pre code { padding: 0; background: transparent; color: inherit; font-size: .82em; line-height: 1.55; }
+      blockquote { max-width: 72ch; margin: 24px 0; padding: 16px 20px; border-left: 4px solid var(--success); background: #ecf8f5; color: var(--ink-2); }
+      .table-wrap { max-width: 100%; margin: 24px 0; overflow-x: auto; border: 1px solid var(--rule); border-radius: 8px; }
+      table { width: 100%; border-collapse: collapse; font-size: .9em; }
+      th, td { padding: 12px 14px; border-bottom: 1px solid var(--rule); text-align: left; vertical-align: top; }
+      th { background: var(--accent-soft); color: var(--accent); font-family: var(--display); }
+      tbody tr:last-child td { border-bottom: 0; }
+      footer { display: flex; gap: 12px; align-items: center; padding: 20px 64px; border-top: 1px solid var(--rule); color: var(--muted); font-size: 14px; }
+      footer::before { width: 9px; height: 9px; border-radius: 50%; background: var(--success); content: ""; }
+      @media (max-width: 700px) { .page { width: 100%; margin: 0; border: 0; border-radius: 0; } header, main { padding: 36px 24px; } footer { padding: 18px 24px; } body { font-size: 17px; } }
+      @media print { body { background: white; } .page { width: 100%; margin: 0; border: 0; box-shadow: none; } a { color: inherit; } }
+    </style>
+  </head>
+  <body>
+    <article class="page">
+      <header>
+        <p class="label">React Guide VI · Lectura previa</p>
+        <h1>Lectura previa · Sesión 11 · Store y validación local</h1>
+        <div class="rule"></div>
+      </header>
+      <main><h1>Lectura previa · Sesión 11 · Store y validación local</h1>
+<ul><li><strong>Tiempo estimado:</strong> 20 minutos</li><li><strong>Verificación de fuentes:</strong> 8 de octubre de 2026</li><li><strong>Versiones del curso:</strong> Zustand <code>5.0.15</code>, Mantine Form <code>9.4.1</code>, Zod <code>4.4.3</code></li></ul>
+<h2>Propósito</h2>
+<p>Reconocer cómo un store tipado comparte los datos del medio elegido y cómo Mantine conecta un schema síncrono con una sesión de formulario.</p>
+<h2>Conocimientos previos</h2>
+<ul><li><code>useState</code>, props y callbacks.</li><li>Tipo e ID del medio: <code>mediaType + externalId</code>.</li><li>Modal controlado de Mantine.</li><li>Tipos literales y arrays <code>as const</code>.</li></ul>
+<h2>Fuente 1 · Zustand</h2>
+<p>Lee <a href="https://zustand.docs.pmnd.rs/reference/apis/create.html" target="_blank" rel="noreferrer">create</a> en:</p>
+<ul><li><code>Types</code> y <code>Signature</code>;</li><li><code>Parameters</code> y <code>Returns</code>;</li><li>el primer ejemplo de actualización;</li><li>la nota sobre shallow merge.</li></ul>
+<p>Busca estas ideas:</p>
+<ul><li><code>create&lt;State&gt;()(...)</code> produce un hook tipado;</li><li><code>set</code> actualiza el estado;</li><li>un selector elige la porción que consume un componente;</li><li>el store puede exponer valores y acciones.</li></ul>
+<h2>Fuente 2 · Mantine Form</h2>
+<p>Lee <a href="https://mantine.dev/form/schema-validation/" target="_blank" rel="noreferrer">Form schema validation</a> desde el ejemplo básico de Zod hasta la explicación de validación síncrona y asíncrona.</p>
+<p>Busca estas ideas:</p>
+<ul><li>Zod 4 se importa desde <code>zod/v4</code>;</li><li><code>schemaResolver</code> se importa desde <code>@mantine/form</code>;</li><li>el ejemplo usa <code>mode: &quot;uncontrolled&quot;</code>;</li><li><code>{ sync: true }</code> corresponde a un schema síncrono.</li></ul>
+<h2>Vocabulario previo</h2>
+<ul><li><strong>Store externo:</strong> estado accesible mediante un hook compartido.</li><li><strong>Selector:</strong> función que elige un valor o acción del store.</li><li><strong>Schema:</strong> regla ejecutable para aceptar o rechazar datos.</li><li><strong>Resolver:</strong> adaptación entre el resultado del schema y los errores del formulario.</li><li><strong>Modo uncontrolled:</strong> modo donde Mantine conserva los valores actuales sin actualizar <code>form.values</code> en cada tecla.</li></ul></main>
+      <footer>Material de preparación · Sesión 11</footer>
+    </article>
+  </body>
+</html>

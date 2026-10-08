@@ -1,23 +1,21 @@
 # MediaLog Bootcamp
 
-Frontend progresivo del curso. Paquete `medialog-bootcamp`; Node >=22.22.0 y pnpm 11.17.0. `main` conserva el inicio sin aplicación. Las referencias implementadas llegan a la sesión 10 y se distribuyen gradualmente por el docente.
+Frontend progresivo del curso. Paquete `medialog-bootcamp`; Node >=22.22.0 y pnpm 11.17.0. `main` conserva el inicio sin aplicación. Las referencias implementadas llegan a la sesión 11 y se distribuyen gradualmente por el docente.
 
-## Sesión 10 · Detalle público y Effects
+## Sesión 11 · Formularios, Zod y modal global
 
-Presentación continua → coding guiado → descanso → taller → revisión oral. Duración: 75 + 30 + 60 + 15 = 180 minutos.
+Presentación continua → coding guiado → práctica → cierre oral. Partimos del detalle público terminado en la sesión 10.
 
 | Orden | Referencia | Resultado |
 | --- | --- | --- |
-| Inicio | `session-10-start` | Idéntico a 09-end: URL validada y detalle provisional. |
-| 1 | `session-10-step-01-detail-query` | Query nullable y dos identidades fijas. |
-| 2 | `session-10-step-02-detail-model` | DTO local traducido a modelo visual. |
-| 3 | `session-10-step-03-detail-preview` | Contenido y PageState con props de demostración. |
-| 4 | `session-10-step-04-document-title` | Título con cleanup, sin logs. |
-| 5 | `session-10-step-05-adapter-tests` | Tests puros del adapter. |
-| Taller | `session-10-workshop-start` | Código de step-05 y material público; sin integración resuelta. |
-| 6 | `session-10-step-06-route-query` | Params reales, ramas explícitas y modelo como diagnóstico. |
-| 7 | `session-10-step-07-detail-composition` | Contenido y título reales; demostración retirada. |
-| Cierre | `session-10-end` | Código de step-07 y materiales públicos; sin extra de reintento. |
+| Inicio | `session-11-start` | Idéntico a `session-10-end`: búsqueda y detalle público. |
+| 1 | `session-11-step-01-modal-store` | Un modal compartido y un botón temporal para abrirlo. |
+| 2 | `session-11-step-02-modal-entrypoints` | Abrir el mismo modal desde una tarjeta o el detalle. |
+| 3 | `session-11-step-03-form-schema` | Reglas Zod y botón temporal para probar datos válidos e inválidos. |
+| 4 | `session-11-step-04-form-fields` | Estado, prioridad y notas con Mantine Form; mostrar valores válidos. |
+| 5 | `session-11-step-05-body-preview` | Preparar y mostrar el body; limpiar la vista previa al editar. |
+| 6 | `session-11-step-06-adapter-tests` | Cinco pruebas puras de la transformación de datos. |
+| Cierre | `session-11-end` | Código de step-06 y materiales públicos de la sesión. |
 
 Guarda tu trabajo antes de cambiar de rama. Las referencias de solución permanecen locales hasta que el docente las distribuya; publicar todas las ramas también publicaría la solución del taller.
 
@@ -32,10 +30,19 @@ pnpm preview
 
 Antes de `pnpm dev`, si no existe `.env.local`, copia `.env.example`. Su variable pública es `VITE_API_URL=https://bootcamp-medialog.cardor.dev`; no requiere credenciales. No sobrescribas una configuración existente sin revisarla.
 
-Abre una tarjeta desde `/search`. El cierre presenta `/media/movie/:externalId` o `/media/series/:externalId` con datos de Query. Una URL inválida no solicita detalle. Carga, error y catálogo nulo se distinguen; el título vuelve a su valor anterior al salir. Si aún no hay respuesta por falta de conexión, la página lo indica sin leer datos inexistentes.
+Desde `/search` o `/media/:mediaType/:externalId`, pulsa **Agregar a mi biblioteca**. Zustand conserva el tipo y el ID del medio elegido; un único modal recibe esos datos. Mantine Form gestiona los campos y sus errores. Zod comprueba los valores antes de preparar el body.
 
-[Guía estudiantil](course/10-taller-detalle-publico-y-effects/student-guide.md) · [Lectura previa](course/10-taller-detalle-publico-y-effects/pre-class-reading.md) · [Control de lectura](course/10-taller-detalle-publico-y-effects/reading-check.md) · [Taller y rúbrica](course/10-taller-detalle-publico-y-effects/workshop-rubric.md).
+El adapter combina el tipo y el ID con el formulario, añade `source: 'catalog'` y convierte las notas vacías en `null`. **Preparar body** muestra el resultado local: todavía no guarda un registro ni envía una petición de creación. La búsqueda heredada sí utiliza POST. Editar un campo limpia la vista previa; cerrar y abrir de nuevo inicia un formulario limpio.
 
-Las guías docentes y claves permanecen en el repositorio privado del curso. Los materiales de 01–09 se conservan en `course/`. La próxima sesión, 11, todavía no tiene checkpoint ejecutable.
+### Material de la sesión 11
+
+- [Guía estudiantil Markdown](course/11-formularios-zod-y-modal-global/student-guide.md)
+- [Guía estudiantil HTML](course/11-formularios-zod-y-modal-global/student-guide.html)
+- [Lectura previa Markdown](course/11-formularios-zod-y-modal-global/pre-class-reading.md)
+- [Lectura previa HTML](course/11-formularios-zod-y-modal-global/pre-class-reading.html)
+- [Control de lectura](course/11-formularios-zod-y-modal-global/reading-check.md)
+- [Presentación PDF](course/11-formularios-zod-y-modal-global/presentation.pdf)
+
+Las guías docentes y claves permanecen en el repositorio privado del curso. Los materiales de 01–10 se conservan en `course/`, incluido el [taller y rúbrica de la sesión 10](course/10-taller-detalle-publico-y-effects/workshop-rubric.md). Su punto de partida sigue siendo `session-10-workshop-start`. La sesión 12 todavía no tiene checkpoint ejecutable.
 
 La suite pura verifica adapters, no red ni DOM. El build verifica tipos y empaquetado, no despliegue. Las pruebas de navegador con respuestas controladas no demuestran disponibilidad del servidor público. El ritmo de aula sigue pendiente de medición con estudiantes.
