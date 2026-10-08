@@ -2,10 +2,12 @@ import { Button, Code, Group, Select, Stack, Text, Textarea } from '@mantine/cor
 import { schemaResolver, useForm } from '@mantine/form'
 import { useState } from 'react'
 
+import { toCreateMediaLogBody } from '../adapters/media-log-form-to-create-body'
 import { mediaLogFormSchema, type MediaLogFormValues } from '../schemas/media-log'
 import {
   MEDIA_PRIORITY_VALUES,
   MEDIA_STATUS_VALUES,
+  type CreateCatalogMediaLogBody,
   type GetMediaDetailInput,
   type MediaPriority,
   type MediaStatus,
@@ -43,8 +45,8 @@ type CreateMediaLogFormProps = {
 
 export function CreateMediaLogForm(props: CreateMediaLogFormProps) {
   const { identity, onCancel } = props
-  const [preparedValues, setPreparedValues] =
-    useState<MediaLogFormValues | null>(null)
+  const [preparedBody, setPreparedBody] =
+    useState<CreateCatalogMediaLogBody | null>(null)
 
   const form = useForm<MediaLogFormValues>({
     mode: 'uncontrolled',
@@ -55,11 +57,11 @@ export function CreateMediaLogForm(props: CreateMediaLogFormProps) {
     },
     validate: schemaResolver(mediaLogFormSchema, { sync: true }),
     validateInputOnBlur: true,
-    onValuesChange: () => setPreparedValues(null),
+    onValuesChange: () => setPreparedBody(null),
   })
 
   const handleSubmit = form.onSubmit((values) => {
-    setPreparedValues(values)
+    setPreparedBody(toCreateMediaLogBody(identity, values))
   })
 
   return (
@@ -99,14 +101,14 @@ export function CreateMediaLogForm(props: CreateMediaLogFormProps) {
             Cancelar
           </Button>
 
-          <Button type="submit">Comprobar valores</Button>
+          <Button type="submit">Preparar body</Button>
         </Group>
 
-        {preparedValues !== null ? (
+        {preparedBody !== null ? (
           <Stack gap="xs">
-            <Text fw={600}>Valores comprobados</Text>
+            <Text fw={600}>Body preparado</Text>
 
-            <Code block>{JSON.stringify(preparedValues, null, 2)}</Code>
+            <Code block>{JSON.stringify(preparedBody, null, 2)}</Code>
           </Stack>
         ) : null}
       </Stack>
