@@ -15,10 +15,13 @@ import { useState, type FormEvent } from 'react'
 import { toMediaSearchCardModel } from '../adapters/media-search-item-to-card-model'
 import { MediaSearchResults } from '../components/media-search-results'
 import { useMediaSearch } from '../hooks/features/use-media'
+import { useCreateMediaLogModalStore } from '../stores/create-media-log-modal-store'
 import type { SearchMediaInput } from '../types/media-api'
 import type { MediaType } from '../types/media-item'
 
 export function SearchPage() {
+  const openCreate = useCreateMediaLogModalStore((state) => state.openCreate)
+
   const [draftQuery, setDraftQuery] = useState('')
   const [draftMediaType, setDraftMediaType] =
     useState<MediaType>('movie')
@@ -65,7 +68,7 @@ export function SearchPage() {
       return <Text>No encontramos resultados para esta búsqueda.</Text>
     }
 
-    return <MediaSearchResults items={items} />
+    return <MediaSearchResults items={items} onCreate={openCreate} />
   }
 
   return (

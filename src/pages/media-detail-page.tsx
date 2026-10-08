@@ -1,4 +1,4 @@
-import { Anchor, Container, Stack } from '@mantine/core'
+import { Anchor, Button, Container, Stack } from '@mantine/core'
 import { Link, useParams } from 'react-router'
 
 import { mediaCatalogDetailToModel } from '../adapters/media-catalog-detail-to-model'
@@ -7,8 +7,11 @@ import { MediaDetailContent } from '../components/media-detail-content'
 import { MediaDocumentTitle } from '../components/media-document-title'
 import { PageState } from '../components/page-state'
 import { useMediaDetail } from '../hooks/features/use-media'
+import { useCreateMediaLogModalStore } from '../stores/create-media-log-modal-store'
 
 export function MediaDetailPage() {
+  const openCreate = useCreateMediaLogModalStore((state) => state.openCreate)
+
   const params = useParams()
   const detailInput = toMediaDetailInput(params)
   const detailQuery = useMediaDetail(detailInput)
@@ -47,6 +50,10 @@ export function MediaDetailPage() {
         <MediaDocumentTitle title={model.title} />
 
         <MediaDetailContent model={model} />
+
+        <Button onClick={() => openCreate(detailInput)}>
+          Agregar a mi biblioteca
+        </Button>
 
         <Anchor component={Link} to="/search">
           Volver a la búsqueda

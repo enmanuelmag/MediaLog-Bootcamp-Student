@@ -2,6 +2,7 @@ import {
   Anchor,
   Badge,
   Box,
+  Button,
   Card,
   Group,
   Image,
@@ -12,13 +13,15 @@ import {
 import { Link } from 'react-router'
 
 import type { MediaSearchCardModel } from '../types/media-search-card-model'
+import type { GetMediaDetailInput } from '../types/media-api'
 
 type MediaSearchResultsProps = {
   items: MediaSearchCardModel[]
+  onCreate: (identity: GetMediaDetailInput) => void
 }
 
 export function MediaSearchResults(props: MediaSearchResultsProps) {
-  const { items } = props
+  const { items, onCreate } = props
 
   return (
     <SimpleGrid cols={{ base: 1, sm: 2, md: 3 }}>
@@ -63,6 +66,15 @@ export function MediaSearchResults(props: MediaSearchResultsProps) {
             >
               Ver detalle
             </Anchor>
+
+            <Button
+              onClick={() => onCreate({
+                mediaType: item.mediaType,
+                externalId: item.externalId,
+              })}
+            >
+              Agregar a mi biblioteca
+            </Button>
           </Stack>
         </Card>
       ))}
