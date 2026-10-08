@@ -1,7 +1,7 @@
-import { Modal, Text } from '@mantine/core'
+import { Modal } from '@mantine/core'
 
 import { useCreateMediaLogModalStore } from '../stores/create-media-log-modal-store'
-import { MediaLogSchemaProbe } from './media-log-schema-probe'
+import { CreateMediaLogForm } from './create-media-log-form'
 
 export function CreateMediaLogModal() {
   const selection = useCreateMediaLogModalStore((state) => state.selection)
@@ -15,13 +15,11 @@ export function CreateMediaLogModal() {
       closeButtonProps={{ 'aria-label': 'Cerrar' }}
     >
       {selection !== null ? (
-        <>
-          <Text>
-            Tipo: {selection.mediaType} · ID: {selection.externalId}
-          </Text>
-
-          <MediaLogSchemaProbe />
-        </>
+        <CreateMediaLogForm
+          key={`${selection.mediaType}:${selection.externalId}`}
+          identity={selection}
+          onCancel={closeCreate}
+        />
       ) : null}
     </Modal>
   )
